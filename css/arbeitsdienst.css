@@ -1,0 +1,54 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30.09.2018, 21:04:41
+    Author     : WSVBS
+*/
+.table tr th:first-child {
+	width: 5%;
+	display: none;
+}
+
+.table td:first-child {
+	display: none;
+}
+
+.table tr th:nth-child(2) {
+	width: 13%;
+}
+
+.table tr th:nth-child(3) {
+	width: 15%;
+}
+
+.table tr th:nth-child(4) {
+	width: 20%;
+}
+
+.table tr th:nth-child(5) {
+	width: 35%;
+}
+
+.table tr th:nth-child(6) {
+	width: 7%;
+}
+
+.table tr th:last-child {
+	width: 10%;
+}
+
+.table-condensed tbody tr td {
+	/*color: white;*/
+	padding: 2px;
+}
+
+.table-export.tbody.tr.td {
+	color: black;
+}
+
+.tableresult {
+	width: 100%;
+}

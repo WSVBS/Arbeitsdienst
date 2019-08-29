@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="PLG_ARBEITSDIENST_PAD_PAID">Bezahlt</string>
+	<string name="PLG_ARBEITSDIENST_Arbeitsdienst">Arbeitsdienst</string>
+
+	<string name="PLG_ARBEITSDIENST_AGE_TO_WORK">Altersgrenzen</string>
+
+	<string name="PLG_ARBEITSDIENST_CAT">Kategorie</string>
+	<string name="PLG_ARBEITSDIENST_CHOOSE_CATSELECTION_DESC">Die Arbeiten sollen aus Gründen der Statistik
+		Kategorien zugeordnet werden.</string>
+	<string name="PLG_ARBEITSDIENST_CHOOSE_PROJECTSELECTION_DESC">Wenn Arbeiten für bestimmte Bauvorhaben gemacht
+		werden, sind dies hier auszuwählen.</string>
+	<string name="PLG_ARBEITSDIENST_CHOOSE_USERSELECTION_DESC">Hier kann das Mitglied ausgewählt werden, für das
+		die Daten eingegeben werden sollen</string>
+	<string name="PLG_ARBEITSDIENST_CONTRIBUTION_PAYMENTS">Arbeitsdienstzahlungen</string>
+	<string name="PLG_ARBEITSDIENST_CONTRIBUTION_PAYMENTS_DESC">Hier kann nach erfolgter Zahlung ein Bezahlt-Datum in die Datenbank geschrieben werden.</string>string>
+	<string name="PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY">Zahlungshistorie Arbeitsdienst</string>string>
+	<string name="PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY_EDIT">Zahlungshistorie anzeigen</string>string>	
+	<string name="PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY_DESC">Hier kann eine Historie der Zahlungen angezeigt werden. 
+		Als Grundlage dient ein gesetztes Bezahlt-Datum und die zu diesem Zeitpunkt vorhandenen Einträge von Zahlungen, Verwendungszweck und Fälligkeitsdatum.</string>string>
+
+	<string name="PLG_ARBEITSDIENST_DATA_AGE_BEGIN_INFO">Eingabe des Alters, ab dem Arbeitsdienst geleistet
+		werden muss.</string>
+	<string name="PLG_ARBEITSDIENST_DATA_AGE_END_INFO">Eingabe des Alters, ab dem kein Arbeitsdienst mehr
+		geleistet werden muss.</string>
+	<string name="PLG_ARBEITSDIENST_DATEACCOUNTING">Fälligkeitsdatum</string>
+	<string name="PLG_ARBEITSDIENST_DELETE_LIST">Eintrag löschen</string>
+	<string name="PLG_ARBEITSDIENST_DISCRIPTION">Arbeitsbeschreibung</string>
+	<string name="PLG_ARBEITSDIENST_DATE_PAID">Bezahlt-Datum</string>
+	<string name="PLG_ARBEITSDIENST_DATE_PAID_DESC">Das Bezahlt-Datum wird bei einem Benutzer als
+		Kennzeichnung für eine geleistete Beitragszahlung eingetragen.</string>
+
+	<string name="PLG_ARBEITSDIENST_EDIT_LIST">Eintrag bearbeiten</string>
+	<string name="PLG_ARBEITSDIENST_EXCEPTION">Passive Rolle</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT">Export</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL">Kontrolle</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_INFO">Zur Kontrolle können Dateien gespeichert werden.
+		Hierbei stehen 3 Ausgabe zur Verfügung:\n\n
+		CSV(alle) gibt eine Übersicht der Arbeitszeiten über alle Vereinsmitgliedern,\n
+		CSV(Zahler) beinhaltet nur die Ergebnisse der Mitglieder, die nicht
+		ausreichend Arbeitsdienst
+		geleistet haben. \n
+		Diese Information kann auch als PDF gespeichert werden.</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_CHECKBOX">
+	</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_FILE">Datei erstellen</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_PDFPAY_NOTVALID">Das Erstellen der PDF-Datei wird derzeit noch nicht
+		unterstützt</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA">SEPA</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_INFO">Wähle zum Erstellen einen Sequenztyp aus.
+		Normalerweise ist dies RCUR,
+		da der erste Mitgliedsbeitrag schon abgebucht sein sollte.\n
+		Ein Fälligkeitsdatum in der Zukunft ist Voraussetzung um eine SEPA-Datei
+		erstellen zu können.</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_FILE">SEPA Datei erstellen</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_FILE_PAYMENTID">Arbeitsdienstabrechnung</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_FILE_STD">Std.</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_DATE">Fälligkeitsdatum</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_DATE_INFO">Hiermit kann ein Fälligkeitsdatum gesetzt werden.</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_SEPA_DATE_MESSAGE">Fälligkeitsdatum wählen</string>
+
+	<string name="PLG_ARBEITSDIENST_FILENAME">Dateiname</string>
+	<string name="PLG_ARBEITSDIENST_FILTER">Filter</string>
+	<string name="PLG_ARBEITSDIENST_FILTER_DESC">Filterauswahl für die Anzeige.</string>
+	<string name="PLG_ARBEITSDIENST_REFERENCE">Verwendungszweck</string>
+
+	<string name="PLG_ARBEITSDIENST_HEADLINE">Arbeitsdienst</string>
+	
+	<string name="PLG_ARBEITSDIENST_HOURS">Stunden</string>
+
+	<string name="PLG_ARBEITSDIENST_INFO_DATEACCOUNTING">Tag an dem die Abrechnung der Arbeitsstunden vom
+		Konto abgebucht werden soll.</string>
+	<string name="PLG_ARBEITSDIENST_INFO_EXCEPTION">Bei der Berechnung des Arbeitsdienstes werden alle
+		aktiven Mitglieder berücksichtigt. Hier kann die Rolle
+		für passive Mitglieder angegeben werden.</string>
+	<string name="PLG_ARBEITSDIENST_INFO_FILENAME">Name der zu speichernden SEPA-Datei. Diesem wird
+		noch das Jahr der Abrechnung angehängt.</string>
+	<string name="PLG_ARBEITSDIENST_INFO_REFERENCE">Hier kann ein Verwendungszweck angeben werden.
+		Diesem wird dann noch die Anzahl der Fehlstunden und der Name des
+		abgerechneten Mitglieds angehängt.</string>
+
+	<string name="PLG_ARBEITSDIENST_INPUT_AGE_BEGIN">Beginn Arbeitsdienstpflicht: </string>
+	<string name="PLG_ARBEITSDIENST_INPUT_AGE_END">Ende Arbeitsdienstpflicht: </string>
+	<string name="PLG_ARBEITSDIENST_INPUT_BUILD">Bauvorhaben</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_CAT">Kategorien</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_CHANGE">Ändern</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_DATEACCOUNTING">Datum: </string>
+	<string name="PLG_ARBEITSDIENST_INPUT_DATEFILTER">Abrechnungsjahr</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_FILENAME">Dateiname</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_REFERENCE">Verwendungszweck</string>
+
+	<string name="PLG_ARBEITSDIENST_INPUT_HOURS">geleistete Stunden</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_HOURS_TABLE">Zeit</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_PROJECT">Bauvorhaben</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_ACTUAL">Ist</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_AGE">Alter</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_DIFF">Diff</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_MAN">Arbeitsstunden Männer: </string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_MISSING">Fehl</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_PASSIV">Passiv/Befreit</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_TARGET">Soll</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_TOPAY">zu zahlen</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_SAVE">Speichern</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_USER">Benutzer</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_WORK">Eingabe</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGDATE">Datum</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_WOMAN">Arbeitsstunden Frauen: </string>
+	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_AMOUNT">Betrag in €: </string>
+	<string name="PLG_ARBEITSDIENST_INPUT_YEAR">Abrechnungsjahr</string>
+
+	<string name="PLG_ARBEITSDIENST_MANAGEMENT">Arbeitsdienst</string>
+	<string name="PLG_ARBEITSDIENST_MISSING">Fehlstunden</string>
+
+	<string name="PLG_ARBEITSDIENST_OVERVIEW">Zahlungsübersicht</string>
+	<string name="PLG_ARBEITSDIENST_OVERVIEW_PAYMENT">aktuelle Zahlungen</string>
+	<string name="PLG_ARBEITSDIENST_OVERVIEW_HISTORY">Zahlungshistorie</string>
+
+	<string name="PLG_ARBEITSDIENST_ROLE_SELECTION">Rollenauswahl: </string>
+
+	<string name="PLG_ARBEITSDIENST_SETTINGS">Einstellungen</string>
+	<string name="PLG_ARBEITSDIENST_SYS_FIRST_ITEM">Bitte wählen</string>
+
+	<string name="PLG_ARBEITSDIENST_TOTAL">Sollstunden</string>
+	<string name="PLG_ARBEITSDIENST_TOPAY">zu zahlende Stunden</string>
+
+	<string name="PLG_ARBEITSDIENST_WORKING">geleistete Stunden</string>
+	<string name="PLG_ARBEITSDIENST_WORKINGHOURS_MAN">Eingabe der zu leistenden Arbeitsstunden für Männer</string>
+	<string name="PLG_ARBEITSDIENST_WORKINGHOURS_WOMAN">Eingabe der zu leistenden Arbeitsstunden für Frauen</string>
+	<string name="PLG_ARBEITSDIENST_WORKINGHOURS_AMOUNT">Eingabe der Kosten einer nicht geleisteten
+		Arbeitsstunde</string>
+	<string name="PLG_ARBEITSDIENST_WITH_PAID">Mit Bezahlt-Datum</string>
+	<string name="PLG_ARBEITSDIENST_WITHOUT_PAID">Ohne Bezahlt-Datum</string>
+
+	<string name="PAD_ARBEITSDIENST">Arbeitsdienst</string>
+	<string name="PAD_PAID">Bezahlt</string>
+	<string name="PAD_FEE">Betrag</string>
+	<string name="PAD_REFERENCE">Verwendungszweck</string>
+	<string name="PAD_SEQUENCETYPE">Sequenzetyp</string>
+	<string name="PAD_DUEDATE">Fälligkeitsdatum</string>
+</resources>

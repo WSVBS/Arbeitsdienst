@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Anzeigen einer Historie von Zahlungen fuer das Admidio-Plugin Arbeitsdienst
  *
- * @copyright 2004-2018 The Admidio Team
+ * @copyright 2018-2021 The Admidio Team
  * @see https://www.admidio.org/
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *
@@ -27,7 +27,8 @@ require_once (__DIR__ . '/common_function.php');
 require_once (__DIR__ . '/classes/configtable.php');
 
 // only authorized user are allowed to start this module
-if (! isUserAuthorized($_SESSION['pMembershipFee']['script_name'])) {
+if (! isUserAuthorized($_SESSION['pMembershipFee']['script_name'])) 
+{
     $gMessage->show($gL10n->get('SYS_NO_RIGHTS'));
 }
 
@@ -36,67 +37,63 @@ $pPreferences->read();
 
 // calculate default date from which the contribution history should be shown
 $filterDateFrom = DateTime::createFromFormat('Y-m-d', DATE_NOW);
-$filterDateFrom->modify('-' . $gPreferences['members_days_field_history'] . ' day');
+$filterDateFrom->modify('-'.$gSettingsManager->getString('members_days_field_history').' day');
 
 // Initialize and check the parameters
-$getDateFrom = admFuncVariableIsValid($_GET, 'filter_date_from', 'date', array(
-    'defaultValue' => $filterDateFrom->format($gPreferences['system_date'])
-));
-$getDateTo = admFuncVariableIsValid($_GET, 'filter_date_to', 'date', array(
-    'defaultValue' => DATE_NOW
-));
+$getDateFrom = admFuncVariableIsValid($_GET, 'filter_date_from', 'date', array('defaultValue' => $filterDateFrom->format($gSettingsManager->getString('system_date'))));
+$getDateTo = admFuncVariableIsValid($_GET, 'filter_date_to', 'date', array('defaultValue' => DATE_NOW));
 $getLastName = admFuncVariableIsValid($_GET, 'filter_last_name', 'string');
 $getFirstName = admFuncVariableIsValid($_GET, 'filter_first_name', 'string');
-$getMode = admFuncVariableIsValid($_GET, 'mode', 'string', array(
-    'defaultValue' => 'html',
-    'validValues' => array(
-        'csv-ms',
-        'csv-oo',
-        'html',
-        'print',
-        'pdf',
-        'pdfl'
-    )
-));
-$getFullScreen = admFuncVariableIsValid($_GET, 'full_screen', 'bool');
+$getMode = admFuncVariableIsValid($_GET, 'mode', 'string', array('defaultValue' => 'html',
+                                                                 'validValues' => array(
+                                                                 'csv-ms',
+                                                                 'csv-oo',
+                                                                 'html',
+                                                                 'print',
+                                                                 'pdf',
+                                                                 'pdfl')));
+$getExportAndFilter = admFuncVariableIsValid($_GET, 'export_and_filter', 'bool', array('defaultValue' => false));
 
 $title = $gL10n->get('PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY');
 $headline = $gL10n->get('PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY');
 $filename = $gL10n->get('PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY');
 
-// add page to navigation history
-$gNavigation->addUrl(CURRENT_URL, $headline);
 
 // filter_date_from and filter_date_to can have different formats
 // now we try to get a default format for intern use and html output
 $objDateFrom = DateTime::createFromFormat('Y-m-d', $getDateFrom);
-if ($objDateFrom === false) {
+if($objDateFrom === false)
+{
     // check if date has system format
-    $objDateFrom = DateTime::createFromFormat($gPreferences['system_date'], $getDateFrom);
-    if ($objDateFrom === false) {
-        $objDateFrom = DateTime::createFromFormat($gPreferences['system_date'], '1970-01-01');
+    $objDateFrom = DateTime::createFromFormat($gSettingsManager->getString('system_date'), $getDateFrom);
+    if($objDateFrom === false)
+    {
+        $objDateFrom = DateTime::createFromFormat($gSettingsManager->getString('system_date'), '1970-01-01');
     }
 }
 
 $objDateTo = DateTime::createFromFormat('Y-m-d', $getDateTo);
-if ($objDateTo === false) {
+if($objDateTo === false)
+{
     // check if date has system format
-    $objDateTo = DateTime::createFromFormat($gPreferences['system_date'], $getDateTo);
-    if ($objDateTo === false) {
-        $objDateTo = DateTime::createFromFormat($gPreferences['system_date'], '1970-01-01');
+    $objDateTo = DateTime::createFromFormat($gSettingsManager->getString('system_date'), $getDateTo);
+    if($objDateTo === false)
+    {
+        $objDateTo = DateTime::createFromFormat($gSettingsManager->getString('system_date'), '1970-01-01');
     }
 }
 
 // DateTo should be greater than DateFrom
-if ($objDateFrom > $objDateTo) {
+if($objDateFrom > $objDateTo)
+{
     $gMessage->show($gL10n->get('SYS_DATE_END_BEFORE_BEGIN'));
     // => EXIT
 }
 
 $dateFromIntern = $objDateFrom->format('Y-m-d');
-$dateFromHtml = $objDateFrom->format($gPreferences['system_date']);
-$dateToIntern = $objDateTo->format('Y-m-d');
-$dateToHtml = $objDateTo->format($gPreferences['system_date']);
+$dateFromHtml   = $objDateFrom->format($gSettingsManager->getString('system_date'));
+$dateToIntern   = $objDateTo->format('Y-m-d');
+$dateToHtml     = $objDateTo->format($gSettingsManager->getString('system_date'));
 
 // initialize some special mode parameters
 $separator = '';
@@ -106,7 +103,8 @@ $classTable = '';
 $orientation = '';
 $csvStr = ''; // CSV file as string
 
-switch ($getMode) {
+switch ($getMode) 
+{
     case 'csv-ms':
         $separator = ';'; // Microsoft Excel 2007 or new needs a semicolon
         $valueQuotes = '"'; // all values should be set with quotes
@@ -169,15 +167,16 @@ if ($fieldHistoryStatement->rowCount() === 0) {
     // => EXIT
 }
 
-if ($getMode !== 'csv') {
+if ($getMode !== 'csv') 
+{
     $datatable = false;
     $hoverRows = false;
 
     if ($getMode === 'print') {
         // create html page object without the custom theme files
-        $page = new HtmlPage();
-        $page->hideThemeHtml();
-        $page->hideMenu();
+        $page = new HtmlPage('plg-arbeitsdienst-history-print', $headline);
+        //$page->hideThemeHtml();
+        //$page->hideMenu();
         $page->setPrintMode();
         $page->setTitle($title);
         $page->setHeadline($headline);
@@ -227,151 +226,156 @@ if ($getMode !== 'csv') {
         $table->addAttribute('border', '1');
         $table->addTableHeader();
         $table->addRow();
-    } elseif ($getMode === 'html') {
+    } 
+    elseif ($getMode === 'html') 
+    {
         $datatable = true;
         $hoverRows = true;
+        
+        $gNavigation->addUrl(SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/arbeitsdienst.php', array('show_option' => 'history')));
+        $gNavigation->addUrl(CURRENT_URL);
 
         // create html page object
-        $page = new HtmlPage();
-
-        if ($getFullScreen) {
-            $page->hideThemeHtml();
-        }
-
+        $page = new HtmlPage('plg-arbeitsdienst-history-html', $headline);
+        
         $page->setTitle($title);
-        $page->setHeadline($headline);
-
-        // create filter menu with input elements for Startdate and Enddate
-        $FilterNavbar = new HtmlNavbar('menu_history_filter', null, null, 'filter');
-        $form = new HtmlForm('navbar_filter_form', ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/history.php', $page, array(
-            'type' => 'navbar',
-            'setFocus' => false
-        ));
-        $form->addInput('filter_date_from', $gL10n->get('SYS_START'), $dateFromHtml, array(
-            'type' => 'date',
-            'maxLength' => 10
-        ));
-        $form->addInput('filter_date_to', $gL10n->get('SYS_END'), $dateToHtml, array(
-            'type' => 'date',
-            'maxLength' => 10
-        ));
-        $form->addInput('filter_last_name', $gL10n->get('SYS_LASTNAME'), $getLastName);
-        if ($getFullScreen) {
-            $form->addInput('filter_first_name', $gL10n->get('SYS_FIRSTNAME'), $getFirstName);
-        } else {
-            $form->addInput('filter_first_name', '', $getFirstName, array(
-                'property' => FIELD_HIDDEN
-            ));
-        }
-        $form->addInput('full_screen', '', $getFullScreen, array(
-            'property' => FIELD_HIDDEN
-        ));
-        $form->addSubmitButton('btn_send', $gL10n->get('SYS_OK'));
-        $FilterNavbar->addForm($form->show(false));
-        $page->addHtml($FilterNavbar->show());
-
+        
         $page->addJavascript('
-            $("#export_list_to").change(function () {
-                if ($(this).val().length > 1) {
-                    var result = $(this).val();
-                    $(this).prop("selectedIndex",0);
-                    self.location.href = "' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/history.php?" +
-                        "mode=" + result + "&filter_last_name=' . $getLastName . '&filter_first_name=' . $getFirstName . '&filter_date_from=' . $getDateFrom . '&filter_date_to=' . $getDateTo . '";
-                }
+            $("#menu_item_lists_print_view").click(function() {
+                window.open("'.SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php', array('filter_date_from'  => $getDateFrom,
+                                                                                                                            'filter_date_to'    => $getDateTo,
+                                                                                                                            'filter_last_name'  => $getLastName,
+                                                                                                                            'filter_first_name' => $getFirstName,
+                                                                                                                            'export_and_filter' => $getExportAndFilter,
+                                                                                                                            'mode'              => 'print')) . '", "_blank");
             });
-
-            $("#menu_item_print_view").click(function () {
-                window.open("' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/history.php?" +
-					"mode=print&filter_last_name=' . $getLastName . '&filter_first_name=' . $getFirstName . '&filter_date_from=' . $getDateFrom . '&filter_date_to=' . $getDateTo . '", "_blank");
-            });', true);
-
-        // get module menu
-        $listsMenu = $page->getMenu();
-        $listsMenu->addItem('menu_item_back', $gNavigation->getPreviousUrl(), $gL10n->get('SYS_BACK'), 'back.png');
-
-        if ($getFullScreen) {
-            $listsMenu->addItem('menu_item_normal_picture', ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/history.php?mode=html&amp;full_screen=false&amp;filter_last_name=' . $getLastName . '&amp;filter_first_name=' . $getFirstName . '&amp;filter_date_from=' . $getDateFrom . '&amp;filter_date_to=' . $getDateTo . '', $gL10n->get('SYS_NORMAL_PICTURE'), 'arrow_in.png');
-        } else {
-            $listsMenu->addItem('menu_item_full_screen', ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/history.php?mode=html&amp;full_screen=true&amp;filter_last_name=' . $getLastName . '&amp;filter_first_name=' . $getFirstName . '&amp;filter_date_from=' . $getDateFrom . '&amp;filter_date_to=' . $getDateTo . '', $gL10n->get('SYS_FULL_SCREEN'), 'arrow_out.png');
-        }
-
-        // link to print overlay and exports
-        $listsMenu->addItem('menu_item_print_view', '#', $gL10n->get('LST_PRINT_PREVIEW'), 'print.png');
-
-        $form = new HtmlForm('navbar_export_to_form', '', $page, array(
-            'type' => 'navbar',
-            'setFocus' => false
-        ));
-        $selectBoxEntries = array(
-            '' => $gL10n->get('LST_EXPORT_TO') . ' ...',
-            'csv-ms' => $gL10n->get('LST_MICROSOFT_EXCEL') . ' (' . $gL10n->get('SYS_ISO_8859_1') . ')',
-            'pdf' => $gL10n->get('SYS_PDF') . ' (' . $gL10n->get('SYS_PORTRAIT') . ')',
-            'pdfl' => $gL10n->get('SYS_PDF') . ' (' . $gL10n->get('SYS_LANDSCAPE') . ')',
-            'csv-oo' => $gL10n->get('SYS_CSV') . ' (' . $gL10n->get('SYS_UTF8') . ')'
-        );
-        $form->addSelectBox('export_list_to', null, $selectBoxEntries, array(
-            'showContextDependentFirstEntry' => false
-        ));
-        $listsMenu->addForm($form->show(false));
-
-        $table = new HtmlTable('history_table', $page, $hoverRows, $datatable, $classTable);
-        $table->setDatatablesRowsPerPage($gPreferences['lists_members_per_page']);
-    } else {
+            $("#export_and_filter").change(function() {
+                $("#navbar_checkbox_form").submit();
+            });
+            $("#filter_date_from").change(function() {
+                $("#navbar_filter_form").submit();
+            });
+            $("#filter_date_to").change(function() {
+                $("#navbar_filter_form").submit();
+            });
+             $("#filter_last_name").change(function() {
+                $("#navbar_filter_form").submit();
+            });
+            $("#filter_first_name").change(function() {
+                $("#navbar_filter_form").submit();
+            });
+        ', true); 
+        
+                if ($getExportAndFilter)
+                {
+                    // links to print and exports
+                    $page->addPageFunctionsMenuItem('menu_item_lists_print_view', $gL10n->get('SYS_PRINT_PREVIEW'), 'javascript:void(0);', 'fa-print');
+                    
+                    // dropdown menu item with all export possibilities
+                    $page->addPageFunctionsMenuItem('menu_item_lists_export', $gL10n->get('SYS_EXPORT_TO'), '#', 'fa-file-download');
+                    $page->addPageFunctionsMenuItem('menu_item_lists_csv_ms', $gL10n->get('SYS_MICROSOFT_EXCEL'),
+                        SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php', array(
+                            'filter_date_from'  => $getDateFrom,
+                            'filter_date_to'    => $getDateTo,
+                            'filter_last_name'  => $getLastName,
+                            'filter_first_name' => $getFirstName,
+                            'export_and_filter' => $getExportAndFilter,
+                            'mode'              => 'csv-ms')),
+                        'fa-file-excel', 'menu_item_lists_export');
+                    $page->addPageFunctionsMenuItem('menu_item_lists_pdf', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_PORTRAIT').')',
+                        SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php', array(
+                            'filter_date_from'  => $getDateFrom,
+                            'filter_date_to'    => $getDateTo,
+                            'filter_last_name'  => $getLastName,
+                            'filter_first_name' => $getFirstName,
+                            'export_and_filter' => $getExportAndFilter,
+                            'mode'              => 'pdf')),
+                        'fa-file-pdf', 'menu_item_lists_export');
+                    $page->addPageFunctionsMenuItem('menu_item_lists_pdfl', $gL10n->get('SYS_PDF').' ('.$gL10n->get('SYS_LANDSCAPE').')',
+                        SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php', array(
+                            'filter_date_from'  => $getDateFrom,
+                            'filter_date_to'    => $getDateTo,
+                            'filter_last_name'  => $getLastName,
+                            'filter_first_name' => $getFirstName,
+                            'export_and_filter' => $getExportAndFilter,
+                            'mode'              => 'pdfl')),
+                        'fa-file-pdf', 'menu_item_lists_export');
+                    $page->addPageFunctionsMenuItem('menu_item_lists_csv', $gL10n->get('SYS_CSV').' ('.$gL10n->get('SYS_UTF8').')',
+                        SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php', array(
+                            'filter_date_from'  => $getDateFrom,
+                            'filter_date_to'    => $getDateTo,
+                            'filter_last_name'  => $getLastName,
+                            'filter_first_name' => $getFirstName,
+                            'export_and_filter' => $getExportAndFilter,
+                            'mode'              => 'csv-oo')),
+                        'fa-file-csv', 'menu_item_lists_export');
+                }
+        
+                $form = new HtmlForm('navbar_checkbox_form', SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php'),  $page, array('type' => 'navbar', 'setFocus' => false));
+                $form->addCheckbox('export_and_filter', $gL10n->get('PLG_MITGLIEDSBEITRAG_EXPORT_AND_FILTER'), $getExportAndFilter);
+                
+                $page->addHtml($form->show());
+                
+                if ($getExportAndFilter)
+                {
+                    $form = new HtmlForm('navbar_filter_form', SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php'),  $page, array('type' => 'navbar', 'setFocus' => false));
+                    $form->addInput('filter_date_from', $gL10n->get('SYS_START'), $dateFromHtml, array('type' => 'date', 'maxLength' => 10));
+                    $form->addInput('filter_date_to', $gL10n->get('SYS_END'), $dateToHtml, array('type' => 'date', 'maxLength' => 10));
+                    //$form->addInput('filter_last_name', $gL10n->get('SYS_LASTNAME'), $getLastName) ;
+                    //$form->addInput('filter_first_name', $gL10n->get('SYS_FIRSTNAME'), $getFirstName);
+                    $form->addInput('export_and_filter', '', $getExportAndFilter, array('property' => HtmlForm::FIELD_HIDDEN));
+                    
+                    $page->addHtml($form->show());
+                }
+                
+                $table = new HtmlTable('history_table', $page, $hoverRows, $datatable, $classTable);
+                $table->setDatatablesRowsPerPage($gSettingsManager->getString('groups_roles_members_per_page'));
+    }
+    else
+    {
         $table = new HtmlTable('history_table', $page, $hoverRows, $datatable, $classTable);
     }
+        
 }
 
 // header definitions
 $columnHeading = array();
 $columnHeading[] = $gL10n->get('SYS_NAME');
-$columnHeading[] = $gL10n->get('PLG_MITGLIEDSBEITRAG_PAID_ON');
-$columnHeading[] = $gL10n->get('PLG_MITGLIEDSBEITRAG_DUEDATE');
-$columnHeading[] = $gL10n->get('PLG_MITGLIEDSBEITRAG_FEE');
-$columnHeading[] = $gL10n->get('PLG_MITGLIEDSBEITRAG_CONTRIBUTORY_TEXT');
+$columnHeading[] = $gL10n->get('PLG_ARBEITSDIENST_PAID_ON');
+$columnHeading[] = $gL10n->get('PLG_ARBEITSDIENST_DUEDATE');
+$columnHeading[] = $gL10n->get('PLG_ARBEITSDIENST_FEE');
+$columnHeading[] = $gL10n->get('PLG_ARBEITSDIENST_CONTRIBUTORY');
 
-foreach ($columnHeading as $headerData) {
-    if ($getMode === 'csv') {
+foreach ($columnHeading as $headerData) 
+{
+    if ($getMode === 'csv') 
+    {
         $csvStr .= $separator . $valueQuotes . $headerData . $valueQuotes;
-    } elseif ($getMode === 'pdf') {
-        $table->addColumn($headerData, array(
-            'style' => 'text-align: center;font-size:14;background-color:#C7C7C7;'
-        ), 'th');
+    }
+    elseif ($getMode === 'pdf') 
+    {
+        $table->addColumn($headerData, array('style' => 'text-align: center;font-size:14;background-color:#C7C7C7;'), 'th');
     }
 }
 
-if ($getMode === 'csv') {
+if ($getMode === 'csv') 
+{
     $csvStr = substr($csvStr, strlen($separator)) . "\n";
-} elseif ($getMode === 'html') {
-    $table->setColumnAlignByArray(array(
-        'left',
-        'left',
-        'left',
-        'left',
-        'left'
-    ));
-    $table->setDatatablesOrderColumns(array(
-        array(
-            5,
-            'desc'
-        )
-    ));
+} 
+elseif ($getMode === 'html') 
+{
+    $table->setColumnAlignByArray(array('left', 'left', 'left', 'left', 'left'));
+    $table->setDatatablesOrderColumns(array(array(5, 'desc')));
     $table->addRowHeadingByArray($columnHeading);
-} elseif ($getMode === 'print') {
-    $table->setColumnAlignByArray(array(
-        'center',
-        'center',
-        'center',
-        'center',
-        'center'
-    ));
-    $table->setDatatablesOrderColumns(array(
-        array(
-            5,
-            'desc'
-        )
-    ));
+} 
+elseif ($getMode === 'print') 
+{
+    $table->setColumnAlignByArray(array('center', 'center', 'center', 'center', 'center'));
+    $table->setDatatablesOrderColumns(array(array(5, 'desc')));
     $table->addRowHeadingByArray($columnHeading);
-} else {
+} 
+else 
+{
     $table->addTableBody();
 }
 
@@ -401,32 +405,32 @@ while ($row = $fieldHistoryStatement->fetch()) {
 
     $columnValues[$row['usl_usr_id']][$row['usl_usf_id']] = $gProfileFields->getHtmlValue($gProfileFields->getPropertyById((int) $row['usl_usf_id'], 'usf_name_intern'), $row['usl_value_new']);
 
-    if ($row['usl_usf_id'] == $gProfileFields->getProperty('WORKPAID', 'usf_id') && $row['usl_value_new'] != '' && $row['usl_value_new'] >= $dateFromIntern && $row['usl_value_new'] <= $dateToIntern) {
+    if ($row['usl_usf_id'] == $gProfileFields->getProperty('WORKPAID', 'usf_id') 
+                                                            && $row['usl_value_new'] != '' 
+                                                            && $row['usl_value_new'] >= $dateFromIntern 
+                                                            && $row['usl_value_new'] <= $dateToIntern) 
+    {
         // add last_name and first_name to the first column
         array_unshift($columnValues[$row['usl_usr_id']], $row['last_name'] . ', ' . $row['first_name']);
 
-        if ($getMode === 'csv') {
+        if ($getMode === 'csv') 
+        {
             $csvTmp = '';
-            foreach ($columnValues[$row['usl_usr_id']] as $dummy => $data) {
+            foreach ($columnValues[$row['usl_usr_id']] as $dummy => $data) 
+            {
                 $csvTmp .= $separator . $valueQuotes . $data . $valueQuotes;
             }
             $csvStr .= substr($csvTmp, strlen($separator)) . "\n";
-        } elseif ($getMode === 'print' || $getMode === 'pdf') {
-            $table->setColumnAlignByArray(array(
-                'center',
-                'center',
-                'center',
-                'center',
-                'center'
-            ));
-            $table->addRowByArray($columnValues[$row['usl_usr_id']], null, array(
-                'nobr' => 'true'
-            ));
-        } else {
-            $table->addRowByArray($columnValues[$row['usl_usr_id']], null, array(
-                'style' => 'cursor: pointer',
-                'onclick' => 'window.location.href=\'' . ADMIDIO_URL . FOLDER_MODULES . '/profile/profile.php?user_id=' . $row['usl_usr_id'] . '\''
-            ));
+        } 
+        elseif ($getMode === 'print' || $getMode === 'pdf') 
+        {
+            $table->setColumnAlignByArray(array('center',  'center',  'center',  'center',  'center'));
+            $table->addRowByArray($columnValues[$row['usl_usr_id']], null, array('nobr' => 'true'));
+        } 
+        else 
+        {
+            $table->addRowByArray($columnValues[$row['usl_usr_id']], null, array('style' => 'cursor: pointer',
+                                                                                 'onclick' => 'window.location.href=\'' . ADMIDIO_URL . FOLDER_MODULES . '/profile/profile.php?user_id=' . $row['usl_usr_id'] . '\''));
         }
         unset($columnValues[$row['usl_usr_id']]);
     }
@@ -448,34 +452,46 @@ if ($getMode === 'csv' || $getMode === 'pdf') {
     header('Pragma: public');
 }
 
-if ($getMode === 'csv') // send the CSV-File to the user
+
+if($getMode === 'csv')							// send the CSV-File to the user
 {
-    header('Content-Type: text/comma-separated-values; charset=' . $charset);
+	header('Content-Type: text/comma-separated-values; charset='.$charset);
 
-    if ($charset === 'iso-8859-1') {
-        echo utf8_decode($csvStr);
-    } else {
-        echo $csvStr;
-    }
-} elseif ($getMode === 'pdf') // send the PDF-File to the User
+	if($charset === 'iso-8859-1')
+	{
+		echo utf8_decode($csvStr);
+	}
+	else
+	{
+		echo $csvStr;
+	}
+}
+elseif($getMode === 'pdf')						// send the PDF-File to the User
 {
-    // output the HTML content
-    $pdf->writeHTML($table->getHtmlTable(), true, false, true, false, '');
+	// output the HTML content
+	$pdf->writeHTML($table->getHtmlTable(), true, false, true, false, '');
 
-    // Save PDF to file
-    $pdf->Output(ADMIDIO_PATH . FOLDER_DATA . '/' . $filename, 'F');
+	//Save PDF to file
+	$pdf->Output(ADMIDIO_PATH . FOLDER_DATA . '/'.$filename, 'F');
 
-    // Redirect
-    header('Content-Type: application/pdf');
+	//Redirect
+	header('Content-Type: application/pdf');
 
-    readfile(ADMIDIO_PATH . FOLDER_DATA . '/' . $filename);
-    ignore_user_abort(true);
-    unlink(ADMIDIO_PATH . FOLDER_DATA . '/' . $filename);
-} elseif ($getMode === 'html' || $getMode === 'print') {
-    // add table list to the page
+	readfile(ADMIDIO_PATH . FOLDER_DATA . '/'.$filename);
+	ignore_user_abort(true);
+	unlink(ADMIDIO_PATH . FOLDER_DATA . '/'.$filename);
+}
+elseif ($getMode == 'html' && $getExportAndFilter)
+{
+    $page->addHtml('<div style="width:100%; height: 500px; overflow:auto; border:20px;">');
     $page->addHtml($table->show(false));
-
-    // show complete html page
+    $page->addHtml('</div><br/>');
+    
     $page->show();
 }
-
+elseif (($getMode == 'html' && !$getExportAndFilter) || $getMode == 'print')
+{
+    $page->addHtml($table->show(false));
+    
+    $page->show();
+}

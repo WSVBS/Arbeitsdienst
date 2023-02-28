@@ -33,6 +33,7 @@
 	<string name="PLG_ARBEITSDIENST_EDIT_LIST">Eintrag bearbeiten</string>
 	<string name="PLG_ARBEITSDIENST_EXCEPTION">Passive Rolle</string>
 	<string name="PLG_ARBEITSDIENST_EXPORT">Export</string>
+	<string name="PLG_ARBEITSDIENST_EXPORT_AND_FILTER">Export und Filter</string>
 	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL">Kontrolle</string>
 	<string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_INFO">Zur Kontrolle können Dateien gespeichert werden.
 		Hierbei stehen 3 Ausgabe zur Verfügung:\n\n
@@ -66,7 +67,7 @@
 
 	<string name="PLG_ARBEITSDIENST_HEADLINE">Arbeitsdienst</string>
 	
-	<string name="PLG_ARBEITSDIENST_HOURS">Stunden</string>
+	<string name="PLG_ARBEITSDIENST_HOURS">Stunden / Stundensatz</string>
 
 	<string name="PLG_ARBEITSDIENST_INFO_DATEACCOUNTING">Tag an dem die Abrechnung der Arbeitsstunden vom
 		Konto abgebucht werden soll.</string>
@@ -101,8 +102,8 @@
 	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_TARGET">Soll</string>
 	<string name="PLG_ARBEITSDIENST_INPUT_RESULT_TOPAY">zu zahlen</string>
 	<string name="PLG_ARBEITSDIENST_INPUT_SAVE">Speichern</string>
-	<string name="PLG_ARBEITSDIENST_INPUT_USER">Benutzer</string>
-	<string name="PLG_ARBEITSDIENST_INPUT_WORK">Eingabe</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_USER">Mitgliedsname</string>
+	<string name="PLG_ARBEITSDIENST_INPUT_WORK">Eingabe Arbeitsdienst</string>
 	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGDATE">Datum</string>
 	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_WOMAN">Arbeitsstunden Frauen: </string>
 	<string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_AMOUNT">Betrag in €: </string>
@@ -114,7 +115,13 @@
 	<string name="PLG_ARBEITSDIENST_OVERVIEW">Zahlungsübersicht</string>
 	<string name="PLG_ARBEITSDIENST_OVERVIEW_PAYMENT">aktuelle Zahlungen</string>
 	<string name="PLG_ARBEITSDIENST_OVERVIEW_HISTORY">Zahlungshistorie</string>
-
+	
+	<string name="PLG_Arbeitsdienst_PLUGIN_INFORMATION">Plugininformationen</string>
+	<string name="PLG_Arbeitsdienst_PLUGIN_NAME">Name des Plugins</string>
+	<string name="PLG_Arbeitsdienst_MEMBERSHIP_FEE">Arbeitsdienst</string>
+	<string name="PLG_Arbeitsdienst_PLUGIN_VERSION">Version</string>
+	<string name="PLG_Arbeitsdienst_PLUGIN_DATE">Stand</string>
+	
 	<string name="PLG_ARBEITSDIENST_ROLE_SELECTION">Rollenauswahl: </string>
 
 	<string name="PLG_ARBEITSDIENST_SETTINGS">Einstellungen</string>
@@ -130,6 +137,11 @@
 		Arbeitsstunde</string>
 	<string name="PLG_ARBEITSDIENST_WITH_PAID">Mit Bezahlt-Datum</string>
 	<string name="PLG_ARBEITSDIENST_WITHOUT_PAID">Ohne Bezahlt-Datum</string>
+	
+	<string name="PLG_ARBEITSDIENST_PAID_ON">Bezahlt am</string>
+	<string name="PLG_ARBEITSDIENST_DUEDATE">Fälligkeitsdatum</string>
+	<string name="PLG_ARBEITSDIENST_FEE">Betrag</string>
+	<string name="PLG_ARBEITSDIENST_CONTRIBUTORY">Beitragstext</string>
 
 	<string name="PAD_ARBEITSDIENST">Arbeitsdienst</string>
 	<string name="PAD_PAID">Bezahlt</string>

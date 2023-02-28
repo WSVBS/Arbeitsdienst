@@ -123,7 +123,7 @@ class ConfigTablePAD
         }
 
         $this->read();
-
+        
         // die eingelesenen Konfigurationsdaten in ein Arbeitsarray kopieren
         $config_ist = $this->config;
 
@@ -149,7 +149,7 @@ class ConfigTablePAD
         // jetzt befinden sich hier nur noch die DB-Eintraege, die nicht verwendet werden und deshalb:
         // 1. in der DB geloescht werden koennen
         // 2. in der normalen config geloescht werden koennen
-        foreach ($config_ist as $section => $sectiondata) {
+/*        foreach ($config_ist as $section => $sectiondata) {
             foreach ($sectiondata as $key => $value) {
                 $plp_name = self::$shortcut1 . '__' . $section . '__' . $key;
                 $sql = 'DELETE FROM ' . $this->table_name . '
@@ -163,6 +163,9 @@ class ConfigTablePAD
                 unset($this->config[$section]);
             }
         }
+*/
+        $this->config['Plugininformationen']['version'] = self::$version;
+        $this->config['Plugininformationen']['stand'] = self::$stand;
         // die aktualisierten und bereinigten Konfigurationsdaten in die DB schreiben
         $this->save();
     }
@@ -176,14 +179,18 @@ class ConfigTablePAD
     {
         global $gDb;
 
-        foreach ($this->config as $section => $sectiondata) {
+        foreach ($this->config as $section => $sectiondata) 
+        {
             foreach ($sectiondata as $key => $value)
-                if (is_array($value)) {
+            {
+                if (is_array($value)) 
+                {
                     // um diesen Datensatz in der Datenbank als Array zu kennzeichnen, wird er von Doppelklammern eingeschlossen
                     $value = '((' . implode(self::$dbtoken, $value) . '))';
                 }
-            {
-                if ($section == 'Kontodaten') {
+
+                if ($section == 'Kontodaten') 
+                {
                     $plp_name = self::$shortcut2 . '__' . $section . '__' . $key;
                 } else {
                     $plp_name = self::$shortcut1 . '__' . $section . '__' . $key;
@@ -199,14 +206,16 @@ class ConfigTablePAD
 
                 // Gibt es den Datensatz bereits?
                 // wenn ja: UPDATE des bestehende Datensatzes
-                if (isset($row->plp_id) && strlen($row->plp_id) > 0) {
+                if (isset($row->plp_id) && strlen($row->plp_id) > 0) 
+                {
                     $sql = 'UPDATE ' . $this->configtable_name . '
                             SET plp_value = \'' . $value . '\'
                             WHERE plp_id = ' . $row->plp_id;
 
                     $gDb->query($sql);
                 } // wenn nicht: INSERT eines neuen Datensatzes
-                else {
+                else 
+                {
                     $sql = 'INSERT INTO ' . $this->configtable_name . ' (plp_org_id, plp_name, plp_value)
                             VALUES (\'' . ORG_ID . '\' ,\'' . self::$shortcut1 . '__' . $section . '__' . $key . '\' ,\'' . $value . '\')';
                     $gDb->query($sql);

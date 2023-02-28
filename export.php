@@ -3,7 +3,7 @@
 /***********************************************************************************************
  * Verarbeiten der Menueeinstellungen des Admidio-Plugins Arbeitsstunden / Export
  *
- * @copyright 2018 WSVBS
+ * @copyright 2018-2021 WSVBS
  * @see https://wsv-bs.de
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  * 
@@ -80,7 +80,7 @@ try {
                 $gMessage->show($gL10n->get('WSV_ARBEISDIENST_EXPORT_NO_DATA'));
 
                 // Sprung-url mit den Sprungoptionen speichern
-                $url = safeUrl($gNavigation->getUrl(), array(
+                $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                     'show_option' => 'controlexport'
                 ));
                 break;
@@ -89,7 +89,7 @@ try {
             if (isset($_POST['btn_export_control']) && ($gettypeofoutput == 'PDFPAY')) // Ausgabe im PDF Format
             {
                 // Sprung-url mit den Sprungoptionen speichern
-                $url = safeUrl($gNavigation->getUrl(), array(
+                $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                     'show_option' => 'controlexport'
                 ));
                 $gMessage->setForwardUrl($url);
@@ -372,7 +372,7 @@ try {
 
                 die();
             }
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'exportsepa'
             ));
             break;

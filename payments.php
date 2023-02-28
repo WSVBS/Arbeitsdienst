@@ -3,7 +3,7 @@
 /***********************************************************************************************
  * Verarbeiten der Menueeinstellungen des Admidio-Plugins Arbeitsstunden / Zahlungsübersicht
  *
- * @copyright 2018-2019 WSVBS,       The Admidio Team
+ * @copyright 2018-2021 WSVBS,       The Admidio Team
  * @see       https://wsv-bs.de,     https://www.admidio.org/
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *
@@ -117,12 +117,8 @@ else {
 
     $membersListRols = 0;
 
-    if ($getFullScreen == true) {
-        $membersListFields = $pPreferences->config['columnconfig']['payments_fields_full_screen'];
-    } else {
-        $membersListFields = $pPreferences->config['columnconfig']['payments_fields_normal_screen'];
-    }
-
+    $membersListFields = $pPreferences->config['columnconfig']['payments_fields'];
+    
     $membersListSqlCondition = 'AND mem_usr_id IN (SELECT DISTINCT usr_id
         FROM ' . TBL_USERS . '
         LEFT JOIN ' . TBL_USER_DATA . ' AS paid
@@ -161,19 +157,19 @@ else {
             // Anzeige abhaengig vom gewaehlten Filter
             $("#mem_show").change(function () {
                 if($(this).val().length > 0) {
-                    window.location.replace("' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/payments.php?full_screen=' . $getFullScreen . '&mem_show_choice="+$(this).val());
+                    window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/payments.php').'?mem_show_choice="+$(this).val());
                 }
             });
                         
             // if checkbox in header is clicked then change all data
             $("input[type=checkbox].change_checkbox").click(function(){
                 var datum = $("#datum").val();
-                $.post("' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/payments.php?mode=assign&full_screen=' . $getFullScreen . '&datum_neu="+datum,
+                $.post("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/payments.php', array('mode' => 'assign')) .'&datum_neu=" + datum,
                     function(data){
                         // check if error occurs
                         if(data == "success") {
                         var mem_show = $("#mem_show").val();
-                            window.location.replace("' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/payments.php?full_screen=' . $getFullScreen . '&mem_show_choice="+mem_show);
+                            window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/payments.php').'?mem_show_choice=" + mem_show);
                         }
                         else {
                             alert(data);
@@ -195,7 +191,7 @@ else {
                 var member_checked = $("input[type=checkbox]#member_"+userid).prop("checked");
                                 
                 // change data in database
-                $.post("' . ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/payments.php?full_screen=' . $getFullScreen . '&datum_neu="+datum+"&mode=assign&usr_id="+userid,
+                $.post("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER .'/payments.php', array('mode' => 'assign')) .'&datum_neu=" + datum + "&usr_id=" + userid,
                     function(data){
                         // check if error occurs
                         if(data == "success") {
@@ -242,51 +238,27 @@ else {
         ';
 
     $page->addJavascript($javascriptCode, true);
-
-    $paymentsMenu = $page->getMenu();
-    $paymentsMenu->addItem('menu_item_back', ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/arbeitsdienst.php?show_option=overviewpayment', $gL10n->get('SYS_BACK'), 'back.png');
-
-    if ($getFullScreen == true) {
-        $paymentsMenu->addItem('menu_item_normal_picture', ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/payments.php?mem_show_choice=' . $getMembersShow . '&amp;full_screen=0', $gL10n->get('SYS_NORMAL_PICTURE'), 'arrow_in.png');
-    } else {
-        $paymentsMenu->addItem('menu_item_full_screen', ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/payments.php?mem_show_choice=' . $getMembersShow . '&amp;full_screen=1', $gL10n->get('SYS_FULL_SCREEN'), 'arrow_out.png');
-    }
-
-    $navbarForm = new HtmlForm('navbar_show_all_users_form', '', $page, array(
-        'type' => 'navbar',
-        'setFocus' => false
-    ));
-
+    
+    $form = new HtmlForm('payments_filter_form', '', $page, array('type' => 'navbar', 'setFocus' => false));
+    
     $datumtemp = \DateTime::createFromFormat('Y-m-d', DATE_NOW);
-    $datum = $datumtemp->format($gPreferences['system_date']);
+    $datum = $datumtemp->format($gSettingsManager->getString('system_date'));
+    $form->addInput('datum', $gL10n->get('PLG_ARBEITSDIENST_DATE_PAID'), $datum, array('type' => 'date', 'helpTextIdLabel' => 'PLG_ARBEITSDIENST_DATE_PAID_DESC'));
+    
+    $selectBoxEntries = array('0' => $gL10n->get('MEM_SHOW_ALL_USERS'), '1' => $gL10n->get('PLG_ARBEITSDIENST_WITH_PAID'), '2' => $gL10n->get('PLG_ARBEITSDIENST_WITHOUT_PAID'));
+    $form->addSelectBox('mem_show', $gL10n->get('PLG_ARBEITSDIENST_FILTER'), $selectBoxEntries, array('defaultValue' => $getMembersShow, 'helpTextIdLabel' => 'PLG_ARBEITSDIENST_FILTER_DESC', 'showContextDependentFirstEntry' => false));
+    
+    $page->addHtml($form->show(false));
 
-    $navbarForm->addInput('datum', $gL10n->get('PLG_ARBEITSDIENST_DATE_PAID'), $datum, array(
-        'type' => 'date',
-        'helpTextIdLabel' => 'PLG_ARBEITSDIENST_DATE_PAID_DESC'
-    ));
-    $selectBoxEntries = array(
-        '0' => $gL10n->get('MEM_SHOW_ALL_USERS'),
-        '1' => $gL10n->get('PLG_ARBEITSDIENST_WITH_PAID'),
-        '2' => $gL10n->get('PLG_ARBEITSDIENST_WITHOUT_PAID')
-    );
-    $navbarForm->addSelectBox('mem_show', $gL10n->get('PLG_ARBEITSDIENST_FILTER'), $selectBoxEntries, array(
-        'defaultValue' => $getMembersShow,
-        'helpTextIdLabel' => 'PLG_ARBEITSDIENST_FILTER_DESC',
-        'showContextDependentFirstEntry' => false
-    ));
-
-    $paymentsMenu->addForm($navbarForm->show(false));
+ 
+   
 
     // create table object
     $table = new HtmlTable('tbl_assign_role_membership', $page, true, true, 'table table-condensed');
     $table->setMessageIfNoRowsFound('SYS_NO_ENTRIES_FOUND');
 
-    $columnAlign = array(
-        'center'
-    );
-    $columnValues = array(
-        '<input type="checkbox" id="change" name="change" class="change_checkbox admidio-icon-help" title="' . $gL10n->get('PLG_MITGLIEDSBEITRAG_DATE_PAID_CHANGE_ALL_DESC') . '"/>'
-    );
+    $columnAlign = array('center');
+    $columnValues = array('<input type="checkbox" id="change" name="change" class="change_checkbox admidio-icon-help" title="' . $gL10n->get('PLG_MITGLIEDSBEITRAG_DATE_PAID_CHANGE_ALL_DESC') . '"/>');
 
     // headlines for columns
     foreach ($membersList as $member => $memberData) {
@@ -312,9 +284,7 @@ else {
 
     $table->setColumnAlignByArray($columnAlign);
     $table->addRowHeadingByArray($columnValues);
-    $table->disableDatatablesColumnsSort(array(
-        1
-    ));
+    $table->disableDatatablesColumnsSort(array(1));
 
     // user data
     foreach ($membersList as $member => $memberData) {
@@ -343,6 +313,7 @@ else {
             /**
              * **************************************************************
              */
+ 
             if ($usfId === (int) $gProfileFields->getProperty('COUNTRY', 'usf_id')) {
                 $content = $gL10n->getCountryByCode($data);
             } elseif ($gProfileFields->getPropertyById($usfId, 'usf_type') === 'CHECKBOX') {
@@ -353,7 +324,7 @@ else {
                 if (strlen($data) > 0) {
                     // date must be formated
                     $date = DateTime::createFromFormat('Y-m-d', $data);
-                    $content = $date->format($gPreferences['system_date']);
+                    $content = $date->format($gSettingsManager->getString('system_date'));
                 }
             }
 
@@ -390,12 +361,12 @@ else {
             }
         }
 
-        $table->addRowByArray($columnValues, 'userid_' . $member, array(
-            'nobr' => 'true'
-        ));
+        $table->addRowByArray($columnValues, 'userid_' . $member, array('nobr' => 'true'));
 
         $userArray[] = $member;
     } // End-foreach User
+    
+    
     $_SESSION['pMembershipFee']['payments_user'] = $userArray;
 
     $page->addHtml($table->show(false));

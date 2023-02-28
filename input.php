@@ -3,7 +3,7 @@
 /***********************************************************************************************
  * Verarbeiten der Menueeinstellungen des Admidio-Plugins Arbeitsstunden / Eingaben
  *
- * @copyright 2018 WSVBS
+ * @copyright 2018-2021 WSVBS
  * @see https://wsv-bs.de
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  *
@@ -53,11 +53,9 @@ try {
             $datefilter = $inputyear[$datefilterid];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
-                'show_option' => 'input_year',
-                'input_user' => $getinputUser,
-                'input_id_datefilter' => $datefilterid
-            ));
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_year',
+                                                                          'input_user' => $getinputUser,
+                                                                          'input_id_datefilter' => $datefilterid));
             break;
 
         case 'saveuser':
@@ -66,11 +64,9 @@ try {
             $inputuser = $datavalue['user_id'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
-                'show_option' => 'input_work',
-                'input_user' => $inputuser,
-                'input_id_datefilter' => $getdatefilterid
-            ));
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_work-user',
+                                                                          'input_user' => $inputuser,
+                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'save':
@@ -102,18 +98,15 @@ try {
             $gDb->query($sql);
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
-                'show_option' => 'input_work',
-                'input_edit' => false,
-                'input_user' => $getinputUser,
-                'input_id_datefilter' => $getdatefilterid
-            ));
-
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_work',
+                                                                          'input_edit' => false,
+                                                                          'input_user' => $getinputUser,
+                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'startedit':
             // Umschalten auf <editieren
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'input_work',
                 'input_edit' => true,
                 'pad_id' => $getinputpadid,
@@ -128,13 +121,11 @@ try {
 
             $gDb->query($sql);
 
-            $url = safeUrl($gNavigation->getUrl(), array(
-                'show_option' => 'input_work',
-                'input_edit' => false,
-                'pad_id' => $getinputpadid,
-                'input_user' => $getinputUser,
-                'input_id_datefilter' => $getdatefilterid
-            ));
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_work',
+                                                                          'input_edit' => false,
+                                                                          'pad_id' => $getinputpadid,
+                                                                          'input_user' => $getinputUser,
+                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'savecat':
@@ -167,9 +158,7 @@ try {
 
             $gDb->query($sql);
 
-            $url = safeUrl($gNavigation->getUrl(), array(
-                'show_option' => 'input_cat'
-            ));
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_cat'));
             break;
             
         case 'savebuild':
@@ -202,16 +191,12 @@ try {
         	
         	$gDb->query($sql);
         	
-        	$url = safeUrl($gNavigation->getUrl(), array(
-        			'show_option' => 'input_build'
-        	));
+        	$url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_build'));
         	break;
 
         case 'calculation':
 
-            $url = safeUrl($gNavigation->getUrl(), array(
-                'show_option' => 'calculation'
-            ));
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'calculation'));
             break;
     }
 

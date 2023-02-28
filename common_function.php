@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Gemeinsame Funktionen fuer das Admidio-Plugin Arbeitsdienst
  *
- * @copyright 2018-2019 WSVBS
+ * @copyright 2018-2021 WSVBS
  * @see https://wsv-bs.de/
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  * 
@@ -79,6 +79,36 @@ function isUserAuthorized($scriptName)
             }
         }
     }
+    return $userIsAuthorized;
+}
+
+/**
+ * Funktion prueft, ob der Nutzer berechtigt ist, das Modul Preferences aufzurufen.
+ * @param   none
+ * @return  bool    true, wenn der User berechtigt ist
+ */
+function isUserAuthorizedForPreferences()
+{
+    global $gCurrentUser, $pPreferences;
+    
+    $userIsAuthorized = false;
+    
+    if ($gCurrentUser->isAdministrator())                   // Mitglieder der Rolle Administrator dürfen "Preferences" immer aufrufen
+    {
+        $userIsAuthorized = true;
+    }
+    else
+    {
+        foreach ($pPreferences->config['access']['preferences'] as $roleId)
+        {
+            if ($gCurrentUser->isMemberOfRole((int) $roleId))
+            {
+                $userIsAuthorized = true;
+                continue;
+            }
+        }
+    }
+    
     return $userIsAuthorized;
 }
 
@@ -244,6 +274,7 @@ function list_members($calculationyear, $fields, $rols = array(), $conditions = 
               ORDER BY mem_usr_id ASC ';
 
     $statement = $gDb->query($sql);
+    $anzahl_members = $statement -> rowCount();
     while ($row = $statement->fetch()) {
         // mem_begin und mem_end werden nur in der recalculation.php ausgewertet
         // wird fuer anteilige Beitragsberechnung verwendet
@@ -367,6 +398,7 @@ function sum_working($membersworkinfo, $costshour)
     $AnzahlZahler = 0;
     $targethours = 0;
     $workinghours = 0;
+    $missinghours = 0;
     $sumworking = 0;
     $sumworking = array();
 
@@ -591,3 +623,138 @@ function replace_sepadaten($tmptext)
     }
     return $ret;
 }
+
+/**
+ * @param string $group
+ * @param string $id
+ * @param string $title
+ * @param string $icon
+ * @param string $body
+ * @return string
+ */
+function getMenuePanel($group, $id, $parentId, $title, $icon, $body)
+{
+    $html = '
+        <div class="card" id="panel_' . $id . '">
+            <div class="card-header">
+                <a type="button" data-toggle="collapse" data-target="#collapse_' . $id . '">
+                    <i class="' . $icon . ' fa-fw"></i>' . $title . '
+                </a>
+            </div>
+            <div id="collapse_' . $id . '" class="collapse" aria-labelledby="headingOne" data-parent="#' . $parentId . '">
+                <div class="card-body">
+                    ' . $body . '
+                </div>
+            </div>
+        </div>
+    ';
+    return $html;
+}
+
+/**
+ * @param string $group
+ * @param string $id
+ * @param string $title
+ * @param string $icon
+ * @return string
+ */
+function getMenuePanelHeaderOnly($group, $id, $parentId, $title, $icon)
+{
+    $html = '
+        <div class="card" id="panel_' . $id . '">
+            <div class="card-header">
+                <a type="button" data-toggle="collapse" data-target="#collapse_' . $id . '">
+                    <i class="' . $icon . ' fa-fw"></i>' . $title . '
+                </a>
+            </div>
+            <div id="collapse_' . $id . '" class="collapse" aria-labelledby="headingOne" data-parent="#' . $parentId . '">
+                <div class="card-body">
+    ';
+    return $html;
+}
+
+/**
+ * @param none
+ * @return string
+ */
+function getMenuePanelFooterOnly()
+{
+    return '</div></div></div>';
+}
+
+/**
+ * @param string $group
+ * @return string
+ */
+function openMenueTab($group, $parentId)
+{
+    $html = '
+        <div class="tab-pane fade" id="tabs-' . $group . '" role="tabpanel">
+            <div class="accordion" id="' . $parentId . '">
+    ';
+    return $html;
+}
+
+/**
+ * @param none
+ * @return string
+ */
+function closeMenueTab()
+{
+    return '</div></div>';
+}
+
+/**
+ * Add a new groupbox to the page. This could be used to group some elements
+ * together. There is also the option to set a headline to this group box.
+ * @param string $id       Id the the groupbox.
+ * @param string $headline (optional) A headline that will be shown to the user.
+ * @param string $class    (optional) An additional css classname for the row. The class **admFieldRow**
+ *                         is set as default and need not set with this parameter.
+ */
+function openGroupBox($id, $headline = null, $class = '')
+{
+    $html = '<div id="' . $id . '" class="card admidio-field-group ' . $class . '">';
+    // add headline to groupbox
+    if ($headline !== null)
+    {
+        $html .= '<div class="card-header">' . $headline . '</div>';
+    }
+    $html .= '<div class="card-body">';
+    return $html;
+}
+
+/**
+ * Close the groupbox that was created before.
+ */
+function closeGroupBox()
+{
+    return '</div></div>';
+}
+
+/**
+ * Shows a test result and, depending an the size, a scroll bar
+ * @param array $testResult       array with test result
+ * @return string
+ */
+function showTestResultWithScrollbar($testResult)
+{
+    $size = sizeof($testResult);
+    $html = '';
+    
+    if ($size > 8)
+    {
+        $html .= '<div style="width:100%; height:200px; overflow:auto; border:20px;">';
+    }
+    foreach ($testResult as $data)
+    {
+        $html .= $data.'<br />';
+    }
+    if ($size > 8)
+    {
+        $html .= '</div>';
+    }
+    return $html;
+}
+
+

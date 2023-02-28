@@ -3,7 +3,7 @@
  ***********************************************************************************************
  * Verarbeiten der Einstellungen des Admidio-Plugins Arbeitsdienst
  * 
- * @copyright 2018-2019 WSVBS
+ * @copyright 2018-2021 WSVBS
  * @see https://www.wsv-bs.de/
  * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2.0 only
  * 
@@ -38,7 +38,7 @@ try {
             $pPreferences->config['Alter']['AGEEnd'] = $_POST['AGEEnd'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'agetowork'
             ));
             break;
@@ -51,7 +51,7 @@ try {
             $pPreferences->config['Stunden']['Kosten'] = $_POST['WorkingHoursAmount'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'hours'
             ));
             break;
@@ -62,7 +62,7 @@ try {
             $pPreferences->config['Datum']['Stichtag'] = $_POST['dateaccounting'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'dateaccounting'
             ));
             break;
@@ -74,7 +74,7 @@ try {
             $pPreferences->config['Ausnahme']['passiveRolle'] = $_POST['exceptions_roleselection'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'exceptions'
             ));
             break;
@@ -85,7 +85,7 @@ try {
             $pPreferences->config['SEPA']['dateiname'] = $_POST['filename'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'filename'
             ));
             break;
@@ -96,7 +96,7 @@ try {
             $pPreferences->config['SEPA']['reference'] = $_POST['reference'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = safeUrl($gNavigation->getUrl(), array(
+            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array(
                 'show_option' => 'reference'
             ));
             break;

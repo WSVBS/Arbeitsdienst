@@ -4,7 +4,7 @@
  *
  * Arbeitsdienst
  *
- * Version 1.1.2
+ * Version 1.1.3
  *
  * Dieses Plugin berechnet Arbeitsstunden.
  *
@@ -309,7 +309,7 @@ $page->addHtml(openMenueTab('management', 'accordion_management'));
             }
             else 
             {
-                $tempname = $members[$getUserId][LAST_NAME] . ', ' . $members[$getUserId][FIRST_NAME];
+                $tempname = $members[$getUserId]['LAST_NAME'] . ', ' . $members[$getUserId]['FIRST_NAME'];
                 $getinputuser = $getUserId;
                 if ($gCurrentUser->isAdministrator()) 
                 {

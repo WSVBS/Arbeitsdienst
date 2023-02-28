@@ -4,7 +4,7 @@
  *
  * Arbeitsdienst
  *
- * Version 1.1.1
+ * Version 1.1.2
  *
  * Dieses Plugin berechnet Arbeitsstunden.
  *
@@ -324,7 +324,7 @@ $page->addHtml(openMenueTab('management', 'accordion_management'));
     //$page->addHtml($formInputWorkUser->show(false));
             if ($getinputuser != '')
             {
-                $page->addHtml(getMenuePanel('management', 'input_work-user', 'accordion_management', $gL10n->get('PLG_ARBEITSDIENST_INPUT_USER') . '  --  ' . $members[$getinputuser][LAST_NAME] . ', ' . $members[$getinputuser][FIRST_NAME], 'fas fa-user', $formInputWorkUser->show()));
+                $page->addHtml(getMenuePanel('management', 'input_work-user', 'accordion_management', $gL10n->get('PLG_ARBEITSDIENST_INPUT_USER') . '  --  ' . $members[$getinputuser]['LAST_NAME'] . ', ' . $members[$getinputuser]['FIRST_NAME'], 'fas fa-user', $formInputWorkUser->show()));
             }
             else
             {

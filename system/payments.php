@@ -69,7 +69,7 @@ try
     // define title (html) and headline
     $title = $gL10n->get('PLG_ARBEITSDIENST_HEADLINE');
     $headline = $gL10n->get('PLG_ARBEITSDIENST_HEADLINE');
-    $subHeadline = 'Arbeitsdienstzahlungen';
+    $subHeadline = $gL10n->get('PLG_ARBEITSDIENST_CONTRIBUTION_PAYMENTS');
 
     /*
     $gNavigation->addStartUrl(CURRENT_URL, 
@@ -86,7 +86,7 @@ try
 
     // create html page object
     $page = PagePresenter::withHtmlIDAndHeadline('plg-arbeitsdienst-overview-payments');
-    $page->addTemplateFolder(ADMIDIO_URL . FOLDER_PLUGINS . 'arbeitsdienst/templates');
+    $page->addTemplateFolder(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/templates');
 
     // create html page object
     $page->setContentFullWidth();
@@ -96,7 +96,7 @@ try
     /*
     // Prüfen, ob Kategorie und User_Fields vorhanden sind oder installiert werden müssen
     if (DBcategoriesID('PAD_ARBEITSDIENST') == 0) {
-        admRedirect(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/install.php');
+        admRedirect(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/install.php');
     }
     */
 
@@ -111,7 +111,7 @@ try
         $page->addPageFunctionsMenuItem(
             'admMenuItemPreferencesLists', 
             $gL10n->get('SYS_SETTINGS'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/preferences.php?form=configuration',  
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/preferences.php?form=configuration',  
             'bi-gear-fill');
 
     }
@@ -121,7 +121,7 @@ try
         $page->addPageFunctionsMenuItem(
             'admMenuItemMainLists', 
             $gL10n->get('PLG_ARBEITSDIENST_TEMPLATE_EINGABE'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php?show_option=main',  
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php?show_option=main',  
             '');
     }
 
@@ -131,7 +131,7 @@ try
         $page->addPageFunctionsMenuItem(
             'admMenuItemExportLists', 
             $gL10n->get('PLG_ARBEITSDIENST_EXPORT'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php?show_option=export',  
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php?show_option=export',  
             '');
     }
 
@@ -141,7 +141,7 @@ try
         $page->addPageFunctionsMenuItem(
             'admMenuItemOverviewLists', 
             $gL10n->get('PLG_ARBEITSDIENST_OVERVIEW'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php?show_option=overview',  
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php?show_option=overview',  
             '');
     }
 
@@ -182,7 +182,7 @@ try
     $PaymentTable->setRowsPerPage($gSettingsManager->getInt('contacts_per_page'));
 
     $columnAlign = array('center');
-    $ColumnValuesHeader = array('<input type="checkbox" id="change" name="change" class="change_checkbox admidio-icon-help" title="' . $gL10n->get('PLG_MITGLIEDSBEITRAG_DATE_PAID_CHANGE_ALL_DESC') . '"/>');
+    $ColumnValuesHeader = array('<input type="checkbox" id="change" name="change" class="change_checkbox admidio-icon-help" title="' . $gL10n->get('PLG_ARBEITSDIENST_DATE_PAID_CHANGE_ALL_DESC') . '"/>');
     
     if ($getMode == 'assign') 
     {
@@ -295,7 +295,7 @@ try
             {
                 if($(this).val().length > 0) 
                 {
-                    window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/payments.php').'?mem_show_choice="+$(this).val());
+                    window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/payments.php').'?mem_show_choice="+$(this).val());
                 }
                 else
                 {
@@ -312,13 +312,13 @@ try
             $("input[type=checkbox].change_checkbox").click(function()
             {
                 var datum = $("#datum").val();
-                $.post("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/payments.php', array('mode' => 'assign')) .'&datum_neu=" + datum,
+                $.post("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/payments.php', array('mode' => 'assign')) .'&datum_neu=" + datum,
                     function(data){
                         // check if error occurs
                         if(data == "success") 
                         {
                         var mem_show = $("#mem_show").val();
-                            window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/payments.php').'?mem_show_choice=" + mem_show);
+                            window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/payments.php').'?mem_show_choice=" + mem_show);
                         }
                         else 
                         {
@@ -342,13 +342,13 @@ try
                 var pos = row_id.search("_");
                 var userid = row_id.substring(pos+1);
                 var member_checked = $("input[type=checkbox]#member_"+userid).prop("checked");
-                $.post("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/payments.php', array('mode' => 'assign')) .'&datum_neu=" + datum + "&usr_id=" + userid,
+                $.post("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/payments.php', array('mode' => 'assign')) .'&datum_neu=" + datum + "&usr_id=" + userid,
                     function(data){
                         // check if error occurs
                         if(data == "success") 
                         {
                         var mem_show = $("#mem_show").val();
-                            window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/payments.php').'?mem_show_choice=" + mem_show);
+                            window.location.replace("'. SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/payments.php').'?mem_show_choice=" + mem_show);
                         }
                         else 
                         {
@@ -420,6 +420,7 @@ try
         $smarty->assign('columnAlign', $ColumnAlign);
         $smarty->assign('headers', $ColumnValuesHeader);
         $smarty->assign('rows', $columnValues);
+        $smarty->assign('no_data_text', $gL10n->get('PLG_ARBEITSDIENST_OVERVIEW_PAYMENT_NO_DATA'));
 
         //Template einbinden
         $htmlTable = $smarty->fetch(__DIR__ . '/../templates/arbeitsdienst_overview_payment.tpl');

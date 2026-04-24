@@ -44,7 +44,7 @@ try
     function getdataheader($membersList, $gProfileFields, $gL10n)
     {
         // headlines for columns
-        $ColumnValuesHeader = array('<input type="checkbox" id="change" name="change" class="change_checkbox admidio-icon-help" title="' . $gL10n->get('PLG_MITGLIEDSBEITRAG_DATE_PAID_CHANGE_ALL_DESC') . '"/>');
+        $ColumnValuesHeader = array('<input type="checkbox" id="change" name="change" class="change_checkbox admidio-icon-help" title="' . $gL10n->get('PLG_ARBEITSDIENST_DATE_PAID_CHANGE_ALL_DESC') . '"/>');
         $columnAlign = array();
         foreach ($membersList as $member => $memberData) {
             foreach ($memberData as $usfId => $dummy) {

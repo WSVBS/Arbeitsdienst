@@ -139,12 +139,14 @@ try {
 
                 if ($gettypeofoutput == 'CSVALL') 
                 {
-                    $filename = 'Arbeitsdienst_alle_' . $getdatefilteractual;
+                    $filename = $gL10n->get('PLG_ARBEITSDIENST_EXPORT_ALL_FILENAME_PREFIX');
                 }
                 if ($gettypeofoutput == 'CSVPAY') 
                 {
-                    $filename = 'Arbeitsdienst_Zahler_' . $getdatefilteractual;
+                    $filename = $gL10n->get('PLG_ARBEITSDIENST_EXPORT_PAY_ONLY_FILENAME_PREFIX');
                 }
+
+                $filename = $filename . $getdatefilteractual;
 
                 //erstellen der CSV Datei
                 foreach ($members as $member => $memberdata) {

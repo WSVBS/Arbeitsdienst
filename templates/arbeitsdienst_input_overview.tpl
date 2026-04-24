@@ -51,12 +51,12 @@
                     </td>
                 </tr>
             {foreachelse}
-                'es sind keine Daten vorhanden'
+                {$header_result_no_data}
             {/foreach}
         </tbody>
     </table>
 {else}
-    keine Daten vorhanden
+    {$header_result_no_data}
 {/if}
 </div>
 

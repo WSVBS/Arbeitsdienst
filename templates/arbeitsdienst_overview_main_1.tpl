@@ -8,10 +8,10 @@
                 <table>
                     <tr>
                         <td class="col-sm-4 col-form-label" valign="top">
-                            <h4>aktuelle Zahlungen</h4>
+                            <h4>{$l10n->get('PLG_ARBEITSDIENST_OVERVIEW_PAYMENT')}</h4>
                         </td>
                         <td class="col-sm-8 col-form-label" colspan="2">
-                            {include 'sys-template-parts/form.description.tpl' data=$elements['arbeitsdienst_contribution_payments_desc']}
+                            {$l10n->get('PLG_ARBEITSDIENST_DATE_PAID_DESC')}
                         </td>
                     <tr>
                     </tr>

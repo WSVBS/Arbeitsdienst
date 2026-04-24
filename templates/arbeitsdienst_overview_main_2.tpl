@@ -6,10 +6,10 @@
                 <table>
                     <tr>
                         <td class="col-sm-4 col-form-label" valign="top">
-                            <h4>Zahlungshistorie</h4>
+                            <h4>{$l10n->get('PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY')}</h4>
                         </td>
                         <td class="col-sm-8 col-form-label" colspan="2">
-                            {include 'sys-template-parts/form.description.tpl' data=$elements['arbeitsdienst_contribution_history_desc']}
+                            {$l10n->get('PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY_DESC')}
                         </td>
                     <tr>
                     </tr>

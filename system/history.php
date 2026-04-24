@@ -328,7 +328,7 @@ if ($getMode !== 'csv')
                 }
         
                 $form = new HtmlForm('navbar_checkbox_form', SecurityUtils::encodeUrl(ADMIDIO_URL.FOLDER_PLUGINS . PLUGIN_FOLDER .'/history.php'),  $page, array('type' => 'navbar', 'setFocus' => false));
-                $form->addCheckbox('export_and_filter', $gL10n->get('PLG_MITGLIEDSBEITRAG_EXPORT_AND_FILTER'), $getExportAndFilter);
+                $form->addCheckbox('export_and_filter', $gL10n->get('PLG_ARBEITSDIENST_EXPORT_AND_FILTER'), $getExportAndFilter);
                 
                 $page->addHtml($form->show());
                 

@@ -25,6 +25,14 @@ try {
     require_once (__DIR__ . '/../classes/configtable.php');
     require_once(__DIR__ . '/../../../system/login_valid.php');
 
+    // Ensure this plugin language path is available for this standalone preferences route.
+    // This avoids unresolved #PLG_*# keys when plugin language auto-discovery misses the folder.
+    try {
+        $gL10n->addLanguageFolderPath(__DIR__ . '/../languages');
+    } catch (Throwable $e) {
+        // Ignore duplicate/invalid path errors and continue with default language handling.
+    }
+
     // only authorized user are allowed to start this module
         if (!$gCurrentUser->isAdministrator()) {
             throw new Exception('SYS_NO_RIGHTS');
@@ -33,7 +41,7 @@ try {
     // Initialize and check the parameters
     $showOption = admFuncVariableIsValid($_GET, 'show_option', 'string');
 
-    if (empty($showoption))
+    if (empty($showOption))
     {
         $showOption = 'configuration';
     }
@@ -46,7 +54,7 @@ try {
     $rols = allerollen_einlesen();
     $selectBoxEntriesAlleRollen = array();
 
-    $selectBoxEntriesAlleRollen[0] = '--- Rolle wählen ---';
+    $selectBoxEntriesAlleRollen[0] = $gL10n->get('PLG_ARBEITSDIENST_INPUT_ROLE_SELECTION');
 
     foreach ($rols as $key => $data) {
         $selectBoxEntriesAlleRollen[$key] = array(
@@ -57,9 +65,20 @@ try {
 
     $gNavigation->addUrl(CURRENT_URL, $gL10n->get('SYS_CONFIGURATIONS'));
 
+    // Backward compatibility: older installs stored a fixed German default.
+    $localizedWorkDuty = $gL10n->get('PLG_ARBEITSDIENST_HEADLINE');
+    $defaultFilename = $pPreferences->config['SEPA']['dateiname'];
+    $defaultReference = $pPreferences->config['SEPA']['reference'];
+    if ($defaultFilename === 'Arbeitsdienst') {
+        $defaultFilename = $localizedWorkDuty;
+    }
+    if ($defaultReference === 'Arbeitsdienst') {
+        $defaultReference = $localizedWorkDuty;
+    }
+
     // create html page object
     $page = PagePresenter::withHtmlIDAndHeadline('plg-arbeitsdienst-preferences', $headline);
-    //$page->addCssFile(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/css/arbeitsdienst.css');
+    //$page->addCssFile(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/css/arbeitsdienst.css');
 
     //#############################################################################
     //  Eingabe für Altergrenzen
@@ -68,7 +87,7 @@ try {
     $formConfigurations = new FormPresenter(
                                 'input_form_setting', 
                                 __DIR__ . '/../templates/arbeitsdienst.config.tpl',                                      
-                                SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/preferences_function.php', array('form' => 'configuration')), 
+                                SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/preferences_function.php', array('form' => 'configuration')), 
                                 $page, 
                                 array('class' => 'form-preferences'));
             
@@ -120,7 +139,7 @@ try {
                                                 'step' => 1 ));
            
     $formConfigurations->addInput('workinghoursamount', 
-                                $gL10n->get('PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_AMOUNT'), 
+                                $gL10n->get('PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_AMOUNT') . ' ' . $gSettingsManager->getString('system_currency') . ': ', 
                                 $pPreferences->config['Stunden']['Kosten'], 
                                 array('type' => 'number',
                                                         'minNumber' => 0,
@@ -153,7 +172,7 @@ try {
 
     $formConfigurations->addInput('filename', 
                                  $gL10n->get('PLG_ARBEITSDIENST_INPUT_FILENAME'), 
-                                 $pPreferences->config['SEPA']['dateiname'], 
+                                 $defaultFilename, 
                                  array('type' => 'text'));
 
 //#############################################################################
@@ -162,7 +181,7 @@ try {
 
     $formConfigurations->addInput('reference', 
                                   $gL10n->get('PLG_ARBEITSDIENST_INPUT_REFERENCE'), 
-                                  $pPreferences->config['SEPA']['reference'], 
+                                  $defaultReference, 
                                   array('type' => 'text'));
 
 //#############################################################################

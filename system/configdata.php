@@ -42,8 +42,8 @@ $config_default['Ausnahme'] = array(
 
 // SEPA Informationen
 $config_default['SEPA'] = array(
-    'dateiname' => 'Arbeitsdienst',
-    'reference' => 'Arbeitsdienst'
+    'dateiname' => $gL10n->get('PLG_ARBEITSDIENST_HEADLINE'),
+    'reference' => $gL10n->get('PLG_ARBEITSDIENST_HEADLINE')
 );
 
 // Spalten fuer die Ansichtsdefinitionen

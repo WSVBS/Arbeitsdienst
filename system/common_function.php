@@ -12,7 +12,7 @@
  ***********************************************************************************************
  */
 
- use Admidio\Components\Entity\Component;
+use Admidio\Components\Entity\Component;
 use Admidio\Infrastructure\Database;
 use Admidio\Infrastructure\Utils\SecurityUtils;
 use Admidio\Infrastructure\Utils\StringUtils;
@@ -67,18 +67,24 @@ if (! defined('ORG_ID')) {
 function isUserAuthorized( string $scriptname = '')
 {
     global $gDb, $gCurrentUser;
-    
+
+    // Administrators always have access to the plugin
+    if ($gCurrentUser->isAdministrator())
+    {
+        return true;
+    }
+
     $userIsAuthorized = false;
     $menIds = array();
-    
+
     $menuItemURL = FOLDER_PLUGINS. PLUGIN_FOLDER. '/'. ((strlen($scriptname) === 0) ? 'index.php' : $scriptname);
-    
+
     $sql = 'SELECT men_id
               FROM '.TBL_MENU.'
              WHERE men_url = ? -- $menuItemURL';
-    
+
     $menuStatement = $gDb->queryPrepared($sql, array($menuItemURL));
-    
+
     if ( $menuStatement->rowCount() !== 0 )
     {
         while ($row = $menuStatement->fetch())
@@ -356,13 +362,15 @@ function list_members($calculationyear, $fields, $rols = array(), $conditions = 
  */
 function list_members_workinfo($members, $datefilteractual)
 {
-    global $gDb, $gProfileFields;
+    global $gDb, $gProfileFields, $gL10n;
     $membersworkinfo = array();
 
     $pPreferences = new ConfigTablePAD();
     $pPreferences->read(); // Konfigurationsdaten auslesen
 
     foreach ($members as $member => $memberdata) {
+        $passiv = array();
+
         // Alter jedes Mitglieds berechnen und im Array speichern
         $dt1 = new DateTime($memberdata['BIRTHDAY']);
         $dt2 = new DateTime(date('d.m.Y', strtotime($datefilteractual . '-12-31')));
@@ -386,7 +394,7 @@ function list_members_workinfo($members, $datefilteractual)
             }
         }
         if (empty($passiv)) {
-            $membersworkinfo[$member]['PASSIV'] = 'nein';
+            $membersworkinfo[$member]['PASSIV'] = $gL10n->get('PLG_ARBEITSDIENST_PAD_NO');
             if (($membersworkinfo[$member]['ALTER'] >= $pPreferences->config['Alter']['AGEBegin']) && ($membersworkinfo[$member]['ALTER'] < $pPreferences->config['Alter']['AGEEnd'])) {
                 if ($memberdata['GENDER'] == 1) {
                     // MÃ¤nner
@@ -399,7 +407,7 @@ function list_members_workinfo($members, $datefilteractual)
                 $membersworkinfo[$member]['Sollstunden'] = 0;
             }
         } else {
-            $membersworkinfo[$member]['PASSIV'] = 'ja';
+            $membersworkinfo[$member]['PASSIV'] = $gL10n->get('PLG_ARBEITSDIENST_PAD_YES');
             $membersworkinfo[$member]['Sollstunden'] = 0;
         }
 

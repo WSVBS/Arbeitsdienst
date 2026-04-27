@@ -112,6 +112,12 @@ if (empty($getshowOption))
 {
     $getshowOption = 'main';
 }
+else
+{
+    // Guard against malformed URLs like ?show_option=main?show_option=main&...
+    // that otherwise prevent matching the expected page modes.
+    $getshowOption = strtok($getshowOption, '?');
+}
 
 if (empty($getoutputfile))
 {
@@ -125,7 +131,7 @@ $userdata['pad_hours'] = '';
 
 
 if ($getinputedit == true) {
-    $sqledit = 'SELECT *, DATE_FORMAT (pad_date, \'%d.%m.%Y\') as date FROM adm_user_arbeitsdienst
+    $sqledit = 'SELECT *, pad_date as date FROM adm_user_arbeitsdienst
                WHERE pad_id = ' . $getinputpadid;
     $listdata = array();
     $listdata = $gDb->query($sqledit);
@@ -153,7 +159,7 @@ $gNavigation->addStartUrl(CURRENT_URL,
 
 // create html page object
 $page = PagePresenter::withHtmlIDAndHeadline('plg-arbeitsdienst-main');
-$page->addTemplateFolder(ADMIDIO_URL . FOLDER_PLUGINS . 'arbeitsdienst/templates');
+$page->addTemplateFolder(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/templates');
 
 // Prüfen, ob Kategorie und User_Fields vorhanden sind oder installiert werden müssen
 //if (DBcategoriesID('PAD_ARBEITSDIENST') == 0)
@@ -200,6 +206,12 @@ if ($gCurrentUser->isAdministratorUsers())
 
     if ( $gCurrentUser->isAdministrator()) 
     {
+        $sumWorkingKosten = $sumworking['Kosten'] ?? 0;
+        if ($sumWorkingKosten === '' || $sumWorkingKosten === null)
+        {
+            $sumWorkingKosten = 0;
+        }
+
         $formStaticDisplay->addDescription('plg_arbeitsdienst_total',
                                         $gL10n->get('PLG_ARBEITSDIENST_TOTAL') . ': ' . $sumworking['Sollstunden']);
 
@@ -210,7 +222,7 @@ if ($gCurrentUser->isAdministratorUsers())
                                         $gL10n->get('PLG_ARBEITSDIENST_MISSING') . ': ' . $sumworking['Fehlstunden']);
 
         $formStaticDisplay->addDescription('plg_arbeitsdienst_topay',
-                                        $gL10n->get('PLG_ARBEITSDIENST_TOPAY') . ': ' . $sumworking['Kosten'] . '€');
+                                        $gL10n->get('PLG_ARBEITSDIENST_TOPAY') . ' ' . $gSettingsManager->getString('system_currency') . ': ' . $sumWorkingKosten);
         
         $formStaticDisplay->addToHtmlPage();
     }
@@ -230,7 +242,7 @@ if ($gCurrentUser->isAdministratorUsers())
     $page->addPageFunctionsMenuItem(
         'admMenuItemPreferencesLists', 
         $gL10n->get('SYS_SETTINGS'), 
-        ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/preferences.php?form=configuration',  
+        ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/preferences.php?form=configuration',  
         'bi-gear-fill');
 
 }
@@ -240,7 +252,7 @@ if ($getshowOption != 'main')
     $page->addPageFunctionsMenuItem(
         'admMenuItemMainLists', 
         $gL10n->get('PLG_ARBEITSDIENST_TEMPLATE_EINGABE'), 
-        ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php?show_option=main',  
+        ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php?show_option=main',  
         '');
 }
 
@@ -252,9 +264,9 @@ if ($gCurrentUser->isAdministrator())
         $page->addPageFunctionsMenuItem(
             'admMenuItemExportLists', 
             $gL10n->get('PLG_ARBEITSDIENST_EXPORT'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php?show_option=export' .  
-                                                                                        '&input_id_datefilter=' . $getdatefilterid .
-                                                                                        '&input_user=' . $getinputuser,
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php?show_option=export' .  
+                '&input_id_datefilter=' . $getdatefilterid .
+                '&input_user=' . $getinputuser,
             '');
     }
 
@@ -264,7 +276,7 @@ if ($gCurrentUser->isAdministrator())
         $page->addPageFunctionsMenuItem(
             'admMenuItemOverviewLists', 
             $gL10n->get('PLG_ARBEITSDIENST_OVERVIEW'), 
-            ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php?show_option=overview',  
+            ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php?show_option=overview',  
             '');
     }
 }
@@ -272,7 +284,7 @@ if ($gCurrentUser->isAdministrator())
 //Plugin Kopf angeben
 $page->setHeadline($headline);
 
-$linkstring = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('input_id_datefilter' => $getdatefilterid));                                                                                                                       
+$linkstring = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php', array('input_id_datefilter' => $getdatefilterid));                                                                                                                       
 $javascriptCode = '
     // auf aktuellen User filtern
     $("#plg_arbeitsdienst_input_user").change(function () 
@@ -286,7 +298,7 @@ $javascriptCode = '
     });';
 $page->addJavascript($javascriptCode,true);
 
-$linkstring = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('input_user' => $getinputuser));                                                                                                                       
+$linkstring = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/arbeitsdienst.php', array('input_user' => $getinputuser));                                                                                                                       
 $javascriptCode = '
     // auf aktuellen User filtern
     $("#plg_arbeitsdienst_input_year").change(function () 
@@ -400,7 +412,7 @@ if ($getshowOption == 'main')
     //#############################################################################
     $forminput = new FormPresenter('input_form_eingabe', 
                                     __DIR__ . '/../templates/arbeitsdienst_input_input.tpl', 
-                                    ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/input.php?form=save' . 
+                                    ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/input.php?form=save' . 
                                                                                             '&input_edit=' . $getinputedit . 
                                                                                             '&input_user=' . $getinputuser . 
                                                                                             '&pad_id=' . $getinputpadid . 
@@ -512,7 +524,7 @@ if ($getshowOption == 'main')
                                 pad_user_id as user,
                                 categorie.cat_name_intern as cat,
                                 project.cat_name_intern as proj,
-                                DATE_FORMAT (pad_date, \'%d.%m.%Y\') as date,
+                                pad_date as date,
                                 pad_name as discription,
                                 pad_hours as hours
                         FROM        adm_user_arbeitsdienst
@@ -534,7 +546,7 @@ if ($getshowOption == 'main')
 
         //$sqlresult[$key] = $item;
         
-        $lastcolumnedit = '<a class="admidio-icon-link"	href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/input.php', array('form' => 'startedit',
+        $lastcolumnedit = '<a class="admidio-icon-link"	href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/input.php', array('form' => 'startedit',
                                                                                                                                                                 'input_user' => $getinputuser,
                                                                                                                                                                 'input_datefilter' => $datefilter,
                                                                                                                                                                 'input_id_datefilter' => $getdatefilterid,
@@ -543,7 +555,7 @@ if ($getshowOption == 'main')
                             '<i class="bi bi-pencil-square" data-toggle="tooltip" title="' . $gL10n->get('PLG_ARBEITSDIENST_EDIT_LIST') . '" /></i>
                             </a>';			
         
-        $lastcolumndelete = '<a class="admidio-icon-link" href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/input.php', array('form' => 'delete',
+        $lastcolumndelete = '<a class="admidio-icon-link" href="' . SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/input.php', array('form' => 'delete',
                                                                                                                                                                 'input_user' => $getinputuser,
                                                                                                                                                                 'input_datefilter' => $datefilter,
                                                                                                                                                                 'input_id_datefilter' => $getdatefilterid,
@@ -551,6 +563,11 @@ if ($getshowOption == 'main')
                             . '">' . 
                             '<i class="bi bi-trash" data-toggle="tooltip" title="' . $gL10n->get('PLG_ARBEITSDIENST_DELETE_LIST') . '" /></i>
                             </a>';
+
+        if (!empty($item['date']))
+        {
+            $item['date'] = (new DateTime($item['date']))->format($gSettingsManager->getString('system_date'));
+        }
 
         $item["schalter"] = $lastcolumnedit . '&nbsp;' . $lastcolumndelete;
         
@@ -596,7 +613,7 @@ if ($getshowOption == 'main')
         $workingtopay = $membersworkinfo[$getinputuser]['Fehlstunden'] * $pPreferences->config['Stunden']['Kosten'];
     }
     $workingtopay = number_format($workingtopay, 2);
-    $workingtopay = $workingtopay . ' €';
+    $workingtopay = $workingtopay;
 
     //Tabellenkopf
     $smarty->assign('header_result_age', 
@@ -612,7 +629,9 @@ if ($getshowOption == 'main')
     $smarty->assign('header_result_missing',                                                
                     $gL10n->get('PLG_ARBEITSDIENST_INPUT_RESULT_MISSING'));
     $smarty->assign('header_result_topay',                                                
-                    $gL10n->get('PLG_ARBEITSDIENST_INPUT_RESULT_TOPAY'));
+                    $gL10n->get('PLG_ARBEITSDIENST_INPUT_RESULT_TOPAY') . ' ' . $gSettingsManager->getString('system_currency'));
+    $smarty->assign('header_result_no_data',
+                     $gL10n->get('PLG_ARBEITSDIENST_NO_DATA'));
 
     //Ergebnisse ausgeben
     if ($getinputuser != 0)
@@ -628,7 +647,7 @@ if ($getshowOption == 'main')
     }
     else
     {
-        $smarty->assign('overview_resul_alter', '');
+        $smarty->assign('overview_result_alter', '');
         $smarty->assign('overview_result_passiv', '');
         $smarty->assign('overview_result_soll', '');
         $smarty->assign('overview_result_ist', '');
@@ -641,8 +660,6 @@ if ($getshowOption == 'main')
     $htmlTable = $smarty->fetch(__DIR__ . '/../templates/arbeitsdienst_input_overview.tpl');
     $page->addHtml($htmlTable);
 
-
-
     //#############################################################################
     //  Eingabe der Kategorie (nur Admin)
     //#############################################################################
@@ -650,7 +667,7 @@ if ($getshowOption == 'main')
     {
         $formInputCat = new FormPresenter('form_input_cat', 
                                         __DIR__ . '/../templates/arbeitsdienst_input_cat.tpl',
-                                        ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/input.php?form=savecat'.
+                                        ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/input.php?form=savecat'.
                                                                                                 '&input_edit=' . $getinputedit . 
                                                                                                 '&input_user=' . $getinputuser . 
                                                                                                 '&pad_id=' . $getinputpadid . 
@@ -671,7 +688,7 @@ if ($getshowOption == 'main')
                                         '',
                                         $gDb, 
                                         $sqlcat,
-                                        array('firstEntry' => '-- vorhandene Kategorien --'));
+                                        array('firstEntry' => $gL10n->get('PLG_ARBEITSDIENST_INPUT_CAT_EXISTING')));
                                                                                     
         $formInputCat->addSubmitButton('btn_input_save', $gL10n->get('PLG_ARBEITSDIENST_INPUT_SAVE'), array('icon' => 'fa-save',
                                                                                                                     'class' => ' offset-sm-3'));
@@ -688,7 +705,7 @@ if ($getshowOption == 'main')
     {
         $formInputbuild = new FormPresenter('form_input_build', 
                                         __DIR__ . '/../templates/arbeitsdienst_input_build.tpl',
-                                        ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/input.php?form=savebuild'.
+                                        ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/input.php?form=savebuild'.
                                                                                                 '&input_edit=' . $getinputedit . 
                                                                                                 '&input_user=' . $getinputuser . 
                                                                                                 '&pad_id=' . $getinputpadid . 
@@ -709,7 +726,7 @@ if ($getshowOption == 'main')
                                         '',
                                         $gDb, 
                                         $sqlbuild,
-                                        array('firstEntry' => '-- vorhandene Bauvorhaben --'));
+                                        array('firstEntry' => $gL10n->get('PLG_ARBEITSDIENST_INPUT_BUILD_EXISTING')));
                                                                                     
         $formInputbuild->addSubmitButton('btn_input_save', $gL10n->get('PLG_ARBEITSDIENST_INPUT_SAVE'), array('icon' => 'fa-save',
                                                                                                                     'class' => ' offset-sm-3'));
@@ -728,7 +745,7 @@ if ($getshowOption == 'main')
 
 if ($getshowOption == 'export')
 {
-    $subHeadline = 'Export';
+    $subHeadline = $gL10n->get('PLG_ARBEITSDIENST_EXPORT');
     $page->addHtml('<h5 class="admidio-content-subheader">' . $subHeadline . '</h5>');
 
     if ($typeofoutput == NULL) 
@@ -742,7 +759,7 @@ if ($getshowOption == 'export')
     //#############################################################################
     $formexport = new FormPresenter('export_form', 
                                     __DIR__ . '/../templates/arbeitsdienst_export_control.tpl', 
-                                    ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/export.php?form=controlexport' .
+                                    ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/export.php?form=controlexport' .
                                                                                             '&datefilteractual=' . $datefilteractual , 
                                     $page, 
                                     array('class' => 'form-preferences'));
@@ -772,7 +789,7 @@ if ($getshowOption == 'export')
 
     $formexportsepa = new FormPresenter('exportsepa_form', 
                                     __DIR__ . '/../templates/arbeitsdienst_export_sepa.tpl', 
-                                    ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/export.php?form=exportsepa' . 
+                                    ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/export.php?form=exportsepa' . 
                                                                                             '&datefilteractual=' . $datefilteractual, 
                                     $page, 
                                     array('class' => 'form-preferences'));
@@ -826,7 +843,7 @@ if ($getshowOption == 'export')
 
 if ($getshowOption == 'overview')
 {
-    $subHeadline = 'Zahlungsübersicht';
+    $subHeadline = $gL10n->get('PLG_ARBEITSDIENST_OVERVIEW');
     $page->addHtml('<h5 class="admidio-content-subheader">' . $subHeadline . '</h5>');
 
     
@@ -838,7 +855,7 @@ if ($getshowOption == 'overview')
 
     $formpayment = new FormPresenter('form_overview', 
                                     __DIR__ . '/../templates/arbeitsdienst_overview_main_1.tpl', 
-                                    ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/payments.php?show_option=overview_payment', 
+                                    ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/payments.php?show_option=overview_payment', 
                                     $page, 
                                     array('class' => 'form-preferences'));
 
@@ -861,7 +878,7 @@ if ($getshowOption == 'overview')
 /*
     $formhistory = new FormPresenter('form_overview', 
                                     __DIR__ . '/../templates/arbeitsdienst_overview_main_2.tpl', 
-                                    ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/history.php', 
+                                    ADMIDIO_URL . FOLDER_PLUGINS . PLUGIN_FOLDER . '/system/history.php', 
                                     $page, 
                                     array('class' => 'form-preferences'));
 

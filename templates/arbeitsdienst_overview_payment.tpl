@@ -12,7 +12,7 @@
         <tbody>
         {if count($rows) eq 0}
             <tr>
-                <td colspan="{count($headers)}" style="text-align: center;">es sind keine Daten vorhanden</td>
+                <td colspan="{count($headers)}" style="text-align: center;">{$no_data_text}</td>
             </tr>
         {else}
         {foreach $rows as $key => $row}

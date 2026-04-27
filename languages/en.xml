@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+        <string name="PLG_ARBEITSDIENST_TEMPLATE_ZUORDNUNG">Assignment</string>
+        <string name="PLG_ARBEITSDIENST_TEMPLATE_EINGABE">Input</string>
+
+        <string name="PLG_ARBEITSDIENST_PAD_PAID">Paid</string>
+        <string name="PLG_ARBEITSDIENST_PAD_YES">Yes</string>
+        <string name="PLG_ARBEITSDIENST_PAD_NO">No</string>
+        <string name="PLG_ARBEITSDIENST_Arbeitsdienst">Work Duty</string>
+
+        <string name="PLG_ARBEITSDIENST_AGE_TO_WORK">Age limits</string>
+
+        <string name="PLG_ARBEITSDIENST_CAT">Category</string>
+        <string name="PLG_ARBEITSDIENST_CHOOSE_CATSELECTION_DESC">For statistical reasons, tasks should be assigned to
+                categories.</string>
+        <string name="PLG_ARBEITSDIENST_CHOOSE_PROJECTSELECTION_DESC">If tasks are carried out for specific projects, select them here.</string>
+        <string name="PLG_ARBEITSDIENST_CHOOSE_USERSELECTION_DESC">Here you can select the member for whom
+                the data should be entered</string>
+        <string name="PLG_ARBEITSDIENST_CONTRIBUTION_PAYMENTS">Work Duty Payments</string>
+        <string name="PLG_ARBEITSDIENST_CONTRIBUTION_PAYMENTS_DESC">After payment has been made, a paid date can be written to the database here.</string>
+        <string name="PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY">Work Duty Payment History</string>
+        <string name="PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY_EDIT">Show payment history</string>
+        <string name="PLG_ARBEITSDIENST_CONTRIBUTION_HISTORY_DESC">A history of payments can be displayed here.
+                The basis is a set paid date and the entries existing at that time for payments, purpose, and due date.</string>
+
+        <string name="PLG_ARBEITSDIENST_DATA_AGE_BEGIN_INFO">Enter the age from which work duty must be
+                performed.</string>
+        <string name="PLG_ARBEITSDIENST_DATA_AGE_END_INFO">Enter the age from which work duty no longer has to be
+                performed.</string>
+        <string name="PLG_ARBEITSDIENST_DATEACCOUNTING">Due date</string>
+        <string name="PLG_ARBEITSDIENST_DELETE_LIST">Delete entry</string>
+        <string name="PLG_ARBEITSDIENST_DISCRIPTION">Work description</string>
+        <string name="PLG_ARBEITSDIENST_DATE_PAID">Paid date</string>
+        <string name="PLG_ARBEITSDIENST_DATE_PAID_DESC">The paid date is entered for a user as
+                a marker for a completed contribution payment.</string>
+        <string name="PLG_ARBEITSDIENST_DATE_PAID_CHANGE_ALL_DESC">Select or deselect all entries for date assignment.</string>
+
+        <string name="PLG_ARBEITSDIENST_EDIT_LIST">Edit entry</string>
+        <string name="PLG_ARBEITSDIENST_EXCEPTION">Exempt Roles</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT">Export</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_AND_FILTER">Export and filter</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_CONTROL">Control</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_INFO">Files can be saved for control purposes.
+                3 outputs are available:\n\n
+                CSV(all) provides an overview of working hours for all club members,\n
+                CSV(payers) contains only the results of members who have not
+                performed enough work duty.</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_CHECKBOX">
+        </string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_FILE">Create control file</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_CONTROL_PDFPAY_NOTVALID">Creating the PDF file is currently not
+                supported</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA">SEPA</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_INFO">Select a sequence type for creation.
+                Normally this is RCUR,
+                since the first membership fee should already have been debited.\n
+                A due date in the future is required to be able to
+                create a SEPA file.</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_FILE">Create SEPA file</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_FILE_PAYMENTID">Work Duty Billing</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_FILE_STD">hrs.</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_DATE">Due date</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_SEQUENZTYP">Sequence type</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_DATE_INFO">This can be used to set a due date.</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_SEPA_DATE_MESSAGE">Select due date</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_KONTROL_PRINT">Control printout</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_KONTROL_PRINT_CSVALL">CSV(all)</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_KONTROL_PRINT_CSVPAY">CSV(payers)</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_KONTROL_SEPA_RCUR">RCUR</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_KONTROL_SEPA_FRST">FRST</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_FILENAME_ALL_PREFIX">WorkDuty_All</string>
+        <string name="PLG_ARBEITSDIENST_EXPORT_FILENAME_PAY_ONLY_PREFIX">WorkDuty_Payers</string>
+
+        <string name="PLG_ARBEITSDIENST_FILENAME">File name</string>
+        <string name="PLG_ARBEITSDIENST_FILTER">Filter</string>
+        <string name="PLG_ARBEITSDIENST_FILTER_DESC">Filter selection for display.</string>
+        <string name="PLG_ARBEITSDIENST_REFERENCE">Purpose</string>
+
+        <string name="PLG_ARBEITSDIENST_HEADLINE">Work Duty</string>
+        
+        <string name="PLG_ARBEITSDIENST_HOURS">Hours / Hourly rate</string>
+
+        <string name="PLG_ARBEITSDIENST_INFO_DATEACCOUNTING">Day on which the settlement of working hours should be
+                debited from the account.</string>
+        <string name="PLG_ARBEITSDIENST_INFO_EXCEPTION">When calculating work duty, all
+                active members are considered. Here, the role
+                for passive members can be specified.</string>
+        <string name="PLG_ARBEITSDIENST_INFO_FILENAME">Name of the SEPA file to be saved. The
+                billing year is appended to this.</string>
+        <string name="PLG_ARBEITSDIENST_INFO_REFERENCE">A purpose can be specified here.
+                The number of missing hours and the name of the
+                settled member are then appended.</string>
+
+        <string name="PLG_ARBEITSDIENST_INPUT_AGE_BEGIN">Start of work duty obligation: </string>
+        <string name="PLG_ARBEITSDIENST_INPUT_AGE_END">End of work duty obligation: </string>
+        <string name="PLG_ARBEITSDIENST_INPUT_BUILD">Projects</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_BUILD_EXISTING">-- Existing projects --</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_BUILD_NEW">Create new project</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_CAT">Categories</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_CAT_EXISTING">-- Exisiting categories --</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_CAT_NEW">Create new category</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_CHANGE">Change</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_DATEACCOUNTING">Date: </string>
+        <string name="PLG_ARBEITSDIENST_INPUT_DATEFILTER">Billing year</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_FILENAME">File name</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_REFERENCE">Purpose</string>
+
+        <string name="PLG_ARBEITSDIENST_INPUT_HOURS">hours worked</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_HOURS_TABLE">Time</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_PROJECT">Project</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_ACTUAL">Actual</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_AGE">Age</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_DIFF">Diff</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_MAN">Working hours men: </string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_MISSING">Missing</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_PASSIV">Exempt</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_TARGET">Target</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_RESULT_TOPAY">To pay</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_ROLE_SELECTION">--- Select Role ---</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_SAVE">Save</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_USER">Member name</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_WORK">Work Duty Entry</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_WORKINGDATE">Date</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_WOMAN">Working hours women: </string>
+        <string name="PLG_ARBEITSDIENST_INPUT_WORKINGHOURS_AMOUNT">Amount in</string>
+        <string name="PLG_ARBEITSDIENST_INPUT_YEAR">Billing year</string>
+
+        <string name="PLG_ARBEITSDIENST_MANAGEMENT">Work Duty</string>
+        <string name="PLG_ARBEITSDIENST_MISSING">Missing hours</string>
+        <string name="PLG_ARBEITSDIENST_NO_DATA">No data available</string>
+        <string name="PLG_ARBEITSDIENST_OVERVIEW">Payment Overview</string>
+        <string name="PLG_ARBEITSDIENST_OVERVIEW_PAYMENT">Current Payments</string>
+        <string name="PLG_ARBEITSDIENST_OVERVIEW_PAYMENT_NO_DATA">No data available</string>
+        <string name="PLG_ARBEITSDIENST_OVERVIEW_HISTORY">Payment history</string>
+        
+        <string name="PLG_Arbeitsdienst_PLUGIN_INFORMATION">Plugin information</string>
+        <string name="PLG_Arbeitsdienst_PLUGIN_NAME">Plugin name</string>
+        <string name="PLG_Arbeitsdienst_MEMBERSHIP_FEE">Work Duty</string>
+        <string name="PLG_Arbeitsdienst_PLUGIN_VERSION">Version</string>
+        <string name="PLG_Arbeitsdienst_PLUGIN_DATE">Status</string>
+        
+        <string name="PLG_ARBEITSDIENST_ROLE_SELECTION">Role selection: </string>
+
+        <string name="PLG_ARBEITSDIENST_SETTINGS">Settings</string>
+        <string name="PLG_ARBEITSDIENST_SYS_FIRST_ITEM">Please select</string>
+
+        <string name="PLG_ARBEITSDIENST_TOTAL">Target hours</string>
+        <string name="PLG_ARBEITSDIENST_TOPAY">Hours to be paid</string>
+
+        <string name="PLG_ARBEITSDIENST_WORKING">Hours worked</string>
+        <string name="PLG_ARBEITSDIENST_WORKINGHOURS_MAN">Enter the required working hours for men</string>
+        <string name="PLG_ARBEITSDIENST_WORKINGHOURS_WOMAN">Enter the required working hours for women</string>
+        <string name="PLG_ARBEITSDIENST_WORKINGHOURS_AMOUNT">Enter the cost of one
+                hour of work not performed</string>
+        <string name="PLG_ARBEITSDIENST_WITH_PAID">With paid date</string>
+        <string name="PLG_ARBEITSDIENST_WITHOUT_PAID">Without paid date</string>
+        
+        <string name="PLG_ARBEITSDIENST_PAID_ON">Paid on</string>
+        <string name="PLG_ARBEITSDIENST_DUEDATE">Due date</string>
+        <string name="PLG_ARBEITSDIENST_FEE">Amount</string>
+        <string name="PLG_ARBEITSDIENST_CONTRIBUTORY">Contribution text</string>
+
+        <string name="PAD_ARBEITSDIENST">Work Duty</string>
+        <string name="PAD_PAID">Paid</string>
+        <string name="PAD_FEE">Amount</string>
+        <string name="PAD_REFERENCE">Purpose</string>
+        <string name="PAD_SEQUENCETYPE">Sequence type</string>
+        <string name="PAD_DUEDATE">Due date</string>
+        <string name="SYS_NO_MATCHING_ENTRIES">No entries available</string>
+</resources>

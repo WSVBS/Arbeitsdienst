@@ -56,9 +56,9 @@ try {
             $datefilter = $inputyear[$datefilterid];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'main',
-                                                                          'input_user' => $getinputUser,
-                                                                          'input_id_datefilter' => $datefilterid));
+            $url = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('show_option' => 'main',
+                                                                                                                                          'input_user' => $getinputUser,
+                                                                                                                                          'input_id_datefilter' => $datefilterid));
             break;
 
         case 'saveuser':
@@ -67,9 +67,9 @@ try {
             $inputuser = $datavalue['user_id'];
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'input_work-user',
-                                                                          'input_user' => $inputuser,
-                                                                          'input_id_datefilter' => $getdatefilterid));
+            $url = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('show_option' => 'input_work-user',
+                                                                                                                                          'input_user' => $inputuser,
+                                                                                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'save':
@@ -101,19 +101,19 @@ try {
             $gDb->query($sql);
 
             // Sprung-url mit den Sprungoptionen speichern
-            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'main',
-                                                                          'input_edit' => false,
-                                                                          'input_user' => $getinputUser,
-                                                                          'input_id_datefilter' => $getdatefilterid));
+            $url = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('show_option' => 'main',
+                                                                                                                                          'input_edit' => false,
+                                                                                                                                          'input_user' => $getinputUser,
+                                                                                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'startedit':
             // Umschalten auf <editieren
-            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'main',
-                                                                          'input_edit' => true,
-                                                                          'pad_id' => $getinputpadid,
-                                                                          'input_user' => $getinputUser,
-                                                                          'input_id_datefilter' => $getdatefilterid));
+            $url = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('show_option' => 'main',
+                                                                                                                                          'input_edit' => true,
+                                                                                                                                          'pad_id' => $getinputpadid,
+                                                                                                                                          'input_user' => $getinputUser,
+                                                                                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'delete':
@@ -122,11 +122,11 @@ try {
 
             $gDb->query($sql);
 
-            $url = SecurityUtils::encodeUrl($gNavigation->getUrl(), array('show_option' => 'main',
-                                                                          'input_edit' => false,
-                                                                          'pad_id' => $getinputpadid,
-                                                                          'input_user' => $getinputUser,
-                                                                          'input_id_datefilter' => $getdatefilterid));
+            $url = SecurityUtils::encodeUrl(ADMIDIO_URL . FOLDER_PLUGINS . '/arbeitsdienst/system/arbeitsdienst.php', array('show_option' => 'main',
+                                                                                                                                          'input_edit' => false,
+                                                                                                                                          'pad_id' => $getinputpadid,
+                                                                                                                                          'input_user' => $getinputUser,
+                                                                                                                                          'input_id_datefilter' => $getdatefilterid));
             break;
 
         case 'savecat':

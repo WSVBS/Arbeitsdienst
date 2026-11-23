@@ -401,7 +401,7 @@ try
             
             $columnValues[$counter] = $columnValue;
 
-            //$userArray[] = $member;
+            $userArray[] = $member;
             
         } // End-foreach User
 
@@ -431,7 +431,7 @@ try
         $page->show();
         
     }
-
+    $_SESSION['pMembershipFee']['payments_user'] = $userArray;
 } catch (Throwable $e) 
 {
     handleException($e);

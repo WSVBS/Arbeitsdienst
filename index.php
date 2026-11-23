@@ -4,7 +4,7 @@
  *
  * Arbeitsdienst Startdatei
  *
- * Version 2.0.0
+ * Version 2.0.1
  *
  * Dies ist die Startdatei für das Plugin Arbeitsdienst.
  *
